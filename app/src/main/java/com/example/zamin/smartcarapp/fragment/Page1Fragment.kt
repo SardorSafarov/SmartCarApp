@@ -1,6 +1,7 @@
 package com.example.zamin.smartcarapp.fragment
 
 
+import android.widget.Toast
 import com.example.zamin.smartcarapp.databinding.FragmentPage1Binding
 
 
@@ -14,31 +15,41 @@ class Page1Fragment(val listener: Page1Interfase) :
     }
 
     override fun onViewCreate() {
-
         setOnclicListener()
-
-
     }
 
     private fun setOnclicListener() {
         binding.apply {
 
             btnCarMator.setOnLongClickListener {
-                listener.motorListener(motor)
-                motor = !motor
+                if (checkPhone()){
+                    listener.motorListener(motor)
+                    motor = !motor
+                }
+
                 true
             }
 
             btnCardLockOn.setOnLongClickListener {
+                if (checkPhone())
                 listener.securityListener(true)
                 true
             }
             btnCardLockOff.setOnLongClickListener {
+                if (checkPhone())
                 listener.securityListener(false)
                 true
             }
         }
     }
 
-
+    private fun checkPhone():Boolean {
+        if(sharedPereferenseHelper.getPhone()=="empty")
+        {
+            Toast.makeText(activity, "Ma'lumotlarini kiriting!!", Toast.LENGTH_SHORT).show()
+            return false
+        }else{
+            return true
+        }
+    }
 }

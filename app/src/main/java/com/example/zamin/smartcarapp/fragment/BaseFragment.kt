@@ -16,7 +16,6 @@ abstract class BaseFragment<VB : ViewBinding>(
 ) : Fragment() {
     private var _binding: VB? = null
     val binding get() = _binding!!
-
     lateinit var sharedPereferenseHelper: SharedPereferenseHelper
 
     override fun onCreateView(
@@ -24,6 +23,7 @@ abstract class BaseFragment<VB : ViewBinding>(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        sharedPereferenseHelper = SharedPereferenseHelper(inflater.context)
         _binding = inflate.invoke(inflater, container, false)
         return binding.root
     }
@@ -39,3 +39,4 @@ abstract class BaseFragment<VB : ViewBinding>(
     operator fun VB.invoke(body: VB.() -> Unit) = this.apply { body() }
 
 }
+
