@@ -5,9 +5,11 @@ import android.media.MediaPlayer
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.telephony.SmsManager
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import com.example.zamin.smartcarapp.db.SharedPereferenseHelper
 
 fun D(message:String){
     Log.d("sardor", "---->  $message  <----")
@@ -44,4 +46,10 @@ fun mediaPlayer(context: Context,id:Int)
 {
     var mediaPlayer = MediaPlayer.create(context, id)
     mediaPlayer.start()
+}
+
+
+fun sendSms(sharedPeriferensHelper: SharedPereferenseHelper,sms:String) {
+    val smsManager: SmsManager = SmsManager.getDefault()
+    smsManager.sendTextMessage(sharedPeriferensHelper.getPhone(), null, sms, null, null)
 }

@@ -1,6 +1,7 @@
 package com.example.zamin.smartcarapp.fragment
 
 
+import android.annotation.SuppressLint
 import android.widget.Toast
 import com.example.zamin.smartcarapp.databinding.FragmentPage1Binding
 
@@ -18,6 +19,7 @@ class Page1Fragment(val listener: Page1Interfase) :
         setOnclicListener()
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private fun setOnclicListener() {
         binding.apply {
 
