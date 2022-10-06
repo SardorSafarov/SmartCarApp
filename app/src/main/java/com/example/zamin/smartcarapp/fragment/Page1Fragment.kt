@@ -6,10 +6,11 @@ import com.example.zamin.smartcarapp.databinding.FragmentPage1Binding
 
 class Page1Fragment(val listener: Security) :
     BaseFragment<FragmentPage1Binding>(FragmentPage1Binding::inflate) {
-    var security = true
+    var motor = true
 
     interface Security {
         fun securityListener(boolean: Boolean)
+        fun motorListener(boolean: Boolean)
     }
 
     override fun onViewCreate() {
@@ -21,6 +22,13 @@ class Page1Fragment(val listener: Security) :
 
     private fun setOnclicListener() {
         binding.apply {
+
+            btnCarMator.setOnLongClickListener {
+                listener.motorListener(motor)
+                motor = !motor
+                true
+            }
+
             btnCardLockOn.setOnLongClickListener {
                 listener.securityListener(true)
                 true

@@ -14,6 +14,7 @@ import com.example.zamin.smartcarapp.db.SharedPereferenseHelper
 import com.example.zamin.smartcarapp.fragment.Page1Fragment
 import com.example.zamin.smartcarapp.fragment.Page2Fragment
 import com.example.zamin.smartcarapp.need.invisible
+import com.example.zamin.smartcarapp.need.vibirator
 import com.example.zamin.smartcarapp.need.visible
 
 class MainActivity : AppCompatActivity(), Page1Fragment.Security {
@@ -73,15 +74,24 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Security {
     }
 
 
-
-
     override fun securityListener(boolean: Boolean) {
         if (boolean) {
             binding.imgDome.invisible()
         } else {
             binding.imgDome.visible()
         }
+        vibirator(this)
     }
+
+    override fun motorListener(boolean: Boolean) {
+        if (boolean) {
+            binding.animMotor.invisible()
+        } else {
+            binding.animMotor.visible()
+        }
+        vibirator(this)
+    }
+
     override fun onBackPressed() {
         if (binding.viewPage2.currentItem == 0)
             super.onBackPressed()
