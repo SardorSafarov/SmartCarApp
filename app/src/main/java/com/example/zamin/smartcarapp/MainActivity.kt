@@ -14,14 +14,17 @@ import com.example.zamin.smartcarapp.db.SharedPereferenseHelper
 import com.example.zamin.smartcarapp.fragment.Page1Fragment
 import com.example.zamin.smartcarapp.fragment.Page2Fragment
 import com.example.zamin.smartcarapp.need.invisible
+import com.example.zamin.smartcarapp.need.mediaPlayer
 import com.example.zamin.smartcarapp.need.vibirator
 import com.example.zamin.smartcarapp.need.visible
+import java.lang.Thread.sleep
 
-class MainActivity : AppCompatActivity(), Page1Fragment.Security {
+class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
+    Page2Fragment.Page2Interface {
 
 
     private lateinit var binding: ActivityMainBinding
-    val items: ArrayList<Fragment> = arrayListOf(Page1Fragment(this), Page2Fragment())
+    val items: ArrayList<Fragment> = arrayListOf(Page1Fragment(this), Page2Fragment(this))
     lateinit var adapterFragment: ViewPageAdapter
     private val sharedPeriferensHelper: SharedPereferenseHelper by lazy {
         SharedPereferenseHelper(this)
@@ -85,9 +88,14 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Security {
 
     override fun motorListener(boolean: Boolean) {
         if (boolean) {
+            mediaPlayer(this,R.raw.engine_stop)
+            sleep(2000)
             binding.animMotor.invisible()
         } else {
+            mediaPlayer(this,R.raw.engine_start)
+            sleep(2000)
             binding.animMotor.visible()
+
         }
         vibirator(this)
     }
@@ -97,5 +105,11 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Security {
             super.onBackPressed()
         else
             binding.viewPage2.currentItem--
+    }
+
+    override fun carTrunk() {
+        binding.imgMainCar.setImageResource(R.drawable.sedan_open_trunk)
+        sleep(1000)
+        mediaPlayer(this,R.raw.trunk_open)
     }
 }

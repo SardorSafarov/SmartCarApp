@@ -1,6 +1,7 @@
 package com.example.zamin.smartcarapp.need
 
 import android.content.Context
+import android.media.MediaPlayer
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
@@ -37,4 +38,10 @@ fun vibirator(applicationContext: Context) {
     } else {
         vibrator.vibrate(500)
     }
+}
+
+fun mediaPlayer(context: Context,id:Int)
+{
+    var mediaPlayer = MediaPlayer.create(context, id)
+    mediaPlayer.start()
 }

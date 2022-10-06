@@ -4,11 +4,11 @@ package com.example.zamin.smartcarapp.fragment
 import com.example.zamin.smartcarapp.databinding.FragmentPage1Binding
 
 
-class Page1Fragment(val listener: Security) :
+class Page1Fragment(val listener: Page1Interfase) :
     BaseFragment<FragmentPage1Binding>(FragmentPage1Binding::inflate) {
-    var motor = true
+    var motor = false
 
-    interface Security {
+    interface Page1Interfase {
         fun securityListener(boolean: Boolean)
         fun motorListener(boolean: Boolean)
     }
