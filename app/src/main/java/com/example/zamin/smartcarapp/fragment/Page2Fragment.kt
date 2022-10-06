@@ -6,20 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.zamin.smartcarapp.R
+import com.example.zamin.smartcarapp.databinding.FragmentPage1Binding
+import com.example.zamin.smartcarapp.databinding.FragmentPage2Binding
 
-class Page2Fragment : Fragment() {
+class Page2Fragment :BaseFragment<FragmentPage2Binding>(FragmentPage2Binding::inflate) {
+    override fun onViewCreate() {
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_page_2, container, false)
-    }
 
 }

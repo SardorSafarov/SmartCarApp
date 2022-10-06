@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_margin_20dp"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Raqamini kiriting!"
+        android:textStyle="bold"
+        android:textSize="@dimen/text_size_20sp"
+        android:layout_marginTop="@dimen/padding_margin_10dp"
+        android:layout_marginLeft="@dimen/padding_margin_10dp"
+        />
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:hint="Raqamni kiriting"
+            android:layout_marginTop="@dimen/padding_margin_20dp"
+            android:layout_marginHorizontal="@dimen/padding_margin_10dp"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/phone_number"
+                android:layout_width="match_parent"
+                android:inputType="number"
+                android:layout_height="match_parent"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:gravity="end"
+        android:layout_marginTop="@dimen/padding_margin_30dp"
+        android:layout_marginHorizontal="@dimen/padding_margin_10dp"
+        android:layout_marginBottom="@dimen/padding_margin_10dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/btn_dialog_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Orqaga"
+            android:padding="@dimen/padding_margin_10dp"
+            android:layout_marginRight="@dimen/padding_margin_20dp"
+            android:textSize="@dimen/text_size_20sp"
+            />
+        <TextView
+            android:id="@+id/btn_dialog_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Qo'shish"
+            android:padding="@dimen/padding_margin_10dp"
+            android:textSize="@dimen/text_size_20sp"
+            />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.appcompat.widget.LinearLayoutCompat>

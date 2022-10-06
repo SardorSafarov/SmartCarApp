@@ -21,7 +21,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
         window.statusBarColor = R.color.white
         binding.btnLogin.setOnClickListener {
-            if (binding.edtLogin.text.toString() == "Smartcar" && binding.edtPassword.text.toString() == "112233") {
+            if (binding.edtLogin.text.toString().trim() == "Smartcar" && binding.edtPassword.text.toString().trim() == "112233") {
                 startActivity(Intent(this,MainActivity::class.java))
                 sharedPereferenseHelper.setLogin("login")
                 finish()

@@ -12,4 +12,11 @@ class SharedPereferenseHelper(val context: Context) {
         editor.commit()
     }
     fun getLogin() = sharedPreferences.getString("login","empty").toString()
+
+    fun setPhone(string: String){
+        editor = sharedPreferences.edit()
+        editor.putString("phone",string)
+        editor.commit()
+    }
+    fun getPhone() = sharedPreferences.getString("phone","empty").toString()
 }
