@@ -10,4 +10,6 @@
     <dimen name="padding_margin_30dp">30dp</dimen>
     <dimen name="padding_margin_50dp">50dp</dimen>
     <dimen name="padding_margin_60dp">60dp</dimen>
+    <dimen name="text_size_18sp">18sp</dimen>
+    <dimen name="radius_15dp">15dp</dimen>
 </resources>

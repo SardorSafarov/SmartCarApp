@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#3b4153"
+    android:background="#fff"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".fragment.Page2Fragment">
@@ -15,10 +15,10 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/btn_car_trunk"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             app:cardCornerRadius="100dp"
-            app:strokeColor="#4cbed7"
+            app:strokeColor="#48EA4E"
             app:strokeWidth="5dp">
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -30,18 +30,21 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_car_trunk"
+                    android:padding="5dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/img_car_trunk"
+
                     />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-            android:layout_width="90dp"
-            android:layout_height="90dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             android:layout_marginHorizontal="@dimen/padding_margin_40dp"
             app:cardCornerRadius="100dp"
-            app:strokeColor="#4cbed7"
-            app:strokeWidth="5dp">
+            app:strokeColor="#48EA4E"
+            app:strokeWidth="4dp">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -52,29 +55,67 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_stop" />
+                    android:src="@drawable/img_stop_mator" />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-
-            android:layout_width="90dp"
-            android:layout_height="90dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             app:cardCornerRadius="100dp"
-            app:strokeColor="#4cbed7"
+            app:strokeColor="#48EA4E"
             app:strokeWidth="5dp">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#3b4153"
+                android:background="#636363"
                 android:gravity="center">
 
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/radius_15dp"
+                    android:background="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/radius_15dp"
+                    android:background="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <View
+                    android:id="@+id/view2"
+                    android:layout_width="@dimen/radius_10dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:layout_width="@dimen/radius_10dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <ImageView
+                    android:id="@+id/imageView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_signal" />
-            </androidx.appcompat.widget.LinearLayoutCompat>
+                    android:src="@drawable/a"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
     </androidx.appcompat.widget.LinearLayoutCompat>
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -88,7 +129,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             app:cardCornerRadius="100dp"
-            app:strokeColor="#4cbed7"
+            app:strokeColor="#48EA4E"
             app:strokeWidth="5dp">
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -109,7 +150,7 @@
             android:layout_height="80dp"
             android:layout_marginHorizontal="@dimen/padding_margin_20dp"
             app:cardCornerRadius="100dp"
-            app:strokeColor="#4cbed7"
+            app:strokeColor="#48EA4E"
             app:strokeWidth="5dp">
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -130,7 +171,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             app:cardCornerRadius="100dp"
-            app:strokeColor="#4cbed7"
+            app:strokeColor="#48EA4E"
             app:strokeWidth="5dp">
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -151,7 +192,7 @@
             android:layout_marginStart="@dimen/padding_margin_20dp"
             android:layout_height="80dp"
             app:cardCornerRadius="100dp"
-            app:strokeColor="#4cbed7"
+            app:strokeColor="#48EA4E"
             app:strokeWidth="5dp">
 
             <androidx.appcompat.widget.LinearLayoutCompat
