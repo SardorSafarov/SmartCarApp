@@ -2,13 +2,18 @@ package com.example.zamin.smartcarapp.fragment
 
 
 import android.annotation.SuppressLint
+import android.os.CountDownTimer
 import android.widget.Toast
 import com.example.zamin.smartcarapp.databinding.FragmentPage1Binding
 
 
 class Page1Fragment(val listener: Page1Interfase) :
     BaseFragment<FragmentPage1Binding>(FragmentPage1Binding::inflate) {
-    var motor = false
+    var motorOnOff = false
+    var motor = true
+    var motorTime = true
+    var alarm = true
+    var alarmTime = true
 
     interface Page1Interfase {
         fun securityListener(boolean: Boolean)
@@ -24,9 +29,13 @@ class Page1Fragment(val listener: Page1Interfase) :
         binding.apply {
 
             btnCarMator.setOnLongClickListener {
-                if (checkPhone()){
-                    listener.motorListener(motor)
-                    motor = !motor
+                if (checkPhone()) {
+                    motor = checkMotorTime()
+                    if (motor) {
+                        listener.motorListener(motorOnOff)
+                        motor = false
+                        motorOnOff = !motorOnOff
+                    }
                 }
 
                 true
@@ -34,23 +43,66 @@ class Page1Fragment(val listener: Page1Interfase) :
 
             btnCardLockOn.setOnLongClickListener {
                 if (checkPhone())
-                listener.securityListener(true)
+                    alarm = checkAlarm()
+                if (alarm) {
+                    listener.securityListener(true)
+                    alarm = false
+                }
                 true
             }
             btnCardLockOff.setOnLongClickListener {
-                if (checkPhone())
-                listener.securityListener(false)
+                if (checkPhone()) {
+                    alarm = checkAlarm()
+                    if (alarm) {
+                        listener.securityListener(false)
+                        alarm = false
+                    }
+                }
+
                 true
             }
         }
     }
 
-    private fun checkPhone():Boolean {
-        if(sharedPereferenseHelper.getPhone()=="empty")
-        {
+    private fun checkAlarm(): Boolean {
+        if (alarmTime) {
+            object : CountDownTimer(10_000, 10_000) {
+                override fun onTick(p0: Long) {
+
+                }
+
+                override fun onFinish() {
+                    alarm = true
+                    alarmTime = true
+                }
+            }.start()
+            alarmTime = false
+        }
+        return alarm
+    }
+
+    private fun checkMotorTime(): Boolean {
+        if (motorTime) {
+            object : CountDownTimer(10_000, 10_000) {
+                override fun onTick(p0: Long) {
+
+                }
+
+                override fun onFinish() {
+                    motor = true
+                    motorTime = true
+                }
+            }.start()
+            motorTime = false
+        }
+        return motor
+    }
+
+    private fun checkPhone(): Boolean {
+        if (sharedPereferenseHelper.getPhone() == "empty") {
             Toast.makeText(activity, "Ma'lumotlarini kiriting!!", Toast.LENGTH_SHORT).show()
             return false
-        }else{
+        } else {
             return true
         }
     }

@@ -39,6 +39,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btn_car_mator_off"
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_marginHorizontal="@dimen/padding_margin_40dp"
@@ -60,6 +61,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btn_car_signal"
             android:layout_width="75dp"
             android:layout_height="75dp"
             app:cardCornerRadius="100dp"

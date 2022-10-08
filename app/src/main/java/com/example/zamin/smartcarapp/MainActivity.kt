@@ -1,6 +1,7 @@
 package com.example.zamin.smartcarapp
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
@@ -21,6 +22,7 @@ import com.example.zamin.smartcarapp.need.invisible
 import com.example.zamin.smartcarapp.need.mediaPlayer
 import com.example.zamin.smartcarapp.need.vibirator
 import com.example.zamin.smartcarapp.need.visible
+import com.example.zamin.smartcarapp.settings.SettingsActivity
 import java.lang.Thread.sleep
 
 class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
@@ -47,37 +49,8 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
     }
 
     private fun changePhoneNumber() {
-        binding.changePhoneNumber.setOnClickListener {
-            val alertDialog = AlertDialog.Builder(this, R.style.CustomAlertDialog)
-            val view = LayoutInflater.from(this).inflate(R.layout.dialog_change_phone_number, null)
-            val dialogView = DialogChangePhoneNumberBinding.bind(view)
-            alertDialog.setView(view)
-            val dialog = alertDialog.create()
-            dialog.show()
-            dialogView.apply {
-                btnDialogOk.setOnClickListener {
-                    if (phoneNumber.text!!.isNotEmpty()) {
-                        if (phoneNumber.text.toString().length == 9) {
-                            sharedPeriferensHelper.setPhone(phoneNumber.text.toString())
-                            Toast.makeText(this@MainActivity,
-                                "Raqam kiritildi!",
-                                Toast.LENGTH_SHORT).show()
-                        } else
-                            Toast.makeText(this@MainActivity,
-                                "Raqam xato kiritildi!",
-                                Toast.LENGTH_SHORT).show()
-                    } else
-                        Toast.makeText(this@MainActivity,
-                            "Raqam kiritlmadi!",
-                            Toast.LENGTH_SHORT).show()
-                    dialog.dismiss()
-                }
-                btnDialogNo.setOnClickListener {
-                    dialog.dismiss()
-                }
-            }
-
-
+        binding.btnSettings.setOnClickListener {
+            startActivity(Intent(this,SettingsActivity::class.java))
         }
     }
 
