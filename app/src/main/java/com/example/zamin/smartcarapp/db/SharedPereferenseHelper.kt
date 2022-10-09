@@ -19,4 +19,20 @@ class SharedPereferenseHelper(val context: Context) {
         editor.commit()
     }
     fun getPhone() = sharedPreferences.getString("phone","empty").toString()
+
+
+    fun setDivigitelOnTime(string: String){
+        editor = sharedPreferences.edit()
+        editor.putString("time",string)
+        editor.commit()
+    }
+    fun getDivigitelOnTime() = sharedPreferences.getString("time","empty").toString()
+
+    fun setDivigitelOffTime(string: String){
+        editor = sharedPreferences.edit()
+        editor.putString("divigitelTime",string)
+        editor.commit()
+    }
+    fun getDivigitelOffTime() = sharedPreferences.getString("divigitelTime","empty").toString()
+
 }

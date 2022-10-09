@@ -10,6 +10,7 @@
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/linearLayoutCompat"
+        android:layout_marginTop="@dimen/padding_margin_60dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,7 +22,9 @@
             android:layout_height="wrap_content" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_hour"
+            android:id="@+id/btn_divigitel_on_time"
+            android:layout_marginHorizontal="@dimen/padding_margin_20dp"
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -35,6 +38,7 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_margin_20dp"
         app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat">
 
         <ImageView
@@ -42,12 +46,15 @@
             android:layout_height="wrap_content" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_divigitel"
+            android:id="@+id/btn_divigitel_off_time"
+            android:layout_marginHorizontal="@dimen/padding_margin_20dp"
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <Switch
             android:id="@+id/divigitel_off"
+            android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
