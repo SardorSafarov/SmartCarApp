@@ -5,23 +5,19 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.zamin.smartcarapp.adapter.ViewPageAdapter
 import com.example.zamin.smartcarapp.databinding.ActivityMainBinding
-import com.example.zamin.smartcarapp.databinding.DialogChangePhoneNumberBinding
 import com.example.zamin.smartcarapp.db.SharedPereferenseHelper
 import com.example.zamin.smartcarapp.fragment.Page1Fragment
 import com.example.zamin.smartcarapp.fragment.Page2Fragment
-import com.example.zamin.smartcarapp.need.invisible
-import com.example.zamin.smartcarapp.need.mediaPlayer
-import com.example.zamin.smartcarapp.need.vibirator
-import com.example.zamin.smartcarapp.need.visible
+import com.example.zamin.smartcarapp.utils.invisible
+import com.example.zamin.smartcarapp.utils.mediaPlayer
+import com.example.zamin.smartcarapp.utils.vibirator
+import com.example.zamin.smartcarapp.utils.visible
 import com.example.zamin.smartcarapp.settings.SettingsActivity
 import java.lang.Thread.sleep
 

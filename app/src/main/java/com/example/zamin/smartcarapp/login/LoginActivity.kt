@@ -2,14 +2,13 @@ package com.example.zamin.smartcarapp.login
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.zamin.smartcarapp.MainActivity
 import com.example.zamin.smartcarapp.R
 import com.example.zamin.smartcarapp.databinding.ActivityLoginBinding
 import com.example.zamin.smartcarapp.db.SharedPereferenseHelper
-import com.example.zamin.smartcarapp.need.tosatLong
+import com.example.zamin.smartcarapp.utils.tosatLong
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding

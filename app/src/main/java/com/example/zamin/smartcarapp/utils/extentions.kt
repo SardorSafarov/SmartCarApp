@@ -1,4 +1,4 @@
-package com.example.zamin.smartcarapp.need
+package com.example.zamin.smartcarapp.utils
 
 import android.content.Context
 import android.media.MediaPlayer
@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.example.zamin.smartcarapp.db.SharedPereferenseHelper
+import java.util.*
 
 fun D(message:String){
     Log.d("sardor", "---->  $message  <----")
@@ -52,4 +53,27 @@ fun mediaPlayer(context: Context,id:Int)
 fun sendSms(sharedPeriferensHelper: SharedPereferenseHelper,sms:String) {
     val smsManager: SmsManager = SmsManager.getDefault()
     smsManager.sendTextMessage(sharedPeriferensHelper.getPhone(), null, sms, null, null)
+}
+
+fun getTimeInMillis(hour: Int, minute: Int):Long {
+    val calendar = Calendar.getInstance()
+    calendar.apply {
+        set(Calendar.HOUR_OF_DAY, hour)
+        set(Calendar.MINUTE, minute)
+        set(Calendar.SECOND,0)
+        set(Calendar.MILLISECOND,0)
+    }
+    return calendar.timeInMillis
+}
+
+fun getTimeInMillisNextDay(hour: Int, minute: Int):Long {
+    val calendar = Calendar.getInstance()
+    calendar.apply {
+        set(Calendar.HOUR_OF_DAY, hour)
+        set(Calendar.MINUTE, minute)
+        set(Calendar.DAY_OF_WEEK,Calendar.DAY_OF_WEEK%7+1)
+        set(Calendar.SECOND,0)
+        set(Calendar.MILLISECOND,0)
+    }
+    return calendar.timeInMillis
 }

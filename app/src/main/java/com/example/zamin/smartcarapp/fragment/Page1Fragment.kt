@@ -29,6 +29,7 @@ class Page1Fragment(val listener: Page1Interfase) :
         binding.apply {
 
             btnCarMator.setOnLongClickListener {
+
                 if (checkPhone()) {
                     motor = checkMotorTime()
                     if (motor) {

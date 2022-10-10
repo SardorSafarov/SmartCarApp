@@ -29,7 +29,7 @@
             android:layout_height="wrap_content" />
 
         <Switch
-            android:id="@+id/hour_on_off"
+            android:id="@+id/swi_divigitel_on_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content" />
 
         <Switch
-            android:id="@+id/divigitel_off"
+            android:id="@+id/swi_divigitel_off_time"
             android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
