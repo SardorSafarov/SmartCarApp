@@ -28,15 +28,11 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
     private lateinit var binding: ActivityMainBinding
     val items: ArrayList<Fragment> = arrayListOf(Page1Fragment(this), Page2Fragment(this))
     lateinit var adapterFragment: ViewPageAdapter
-    private val sharedPeriferensHelper: SharedPereferenseHelper by lazy {
-        SharedPereferenseHelper(this)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        window.statusBarColor = Color.parseColor("#075d99")
         checkSendMessagePerimetion()
         adapterFragment = ViewPageAdapter(items, this)
         binding.viewPage2.adapter = adapterFragment

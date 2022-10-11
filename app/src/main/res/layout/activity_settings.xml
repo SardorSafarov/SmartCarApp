@@ -6,6 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#428aff"
     tools:context=".settings.SettingsActivity">
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -14,24 +15,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_margin_20dp"
+            android:layout_marginBottom="@dimen/radius_10dp"
+            android:text="Mashina o't olish vaqti"
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_divigitel_on_time"
-            android:layout_marginHorizontal="@dimen/padding_margin_20dp"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_18sp"
+            android:textStyle="bold" />
 
-        <Switch
-            android:id="@+id/swi_divigitel_on_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_divigitel_on_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/padding_margin_20dp"
+                android:layout_weight="1"
+                android:textColor="@color/white"
+                android:background="@drawable/bg_settings_btn" />
+
+            <Switch
+                android:id="@+id/swi_divigitel_on_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -39,24 +56,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_margin_20dp"
+        android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat">
 
-        <ImageView
+        <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/text_size_20sp"
+            android:layout_marginBottom="@dimen/radius_10dp"
+            android:text="Mashina o'chish vaqti"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_18sp"
+            android:textStyle="bold" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_divigitel_off_time"
-            android:layout_marginHorizontal="@dimen/padding_margin_20dp"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <Switch
-            android:id="@+id/swi_divigitel_off_time"
-            android:layout_gravity="center_vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_divigitel_off_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/padding_margin_20dp"
+                android:layout_weight="1"
+                android:textColor="@color/white"
+                android:background="@drawable/bg_settings_btn" />
+
+            <Switch
+                android:id="@+id/swi_divigitel_off_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

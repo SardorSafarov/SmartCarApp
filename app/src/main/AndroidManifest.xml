@@ -53,7 +53,7 @@
         </activity>
 
         <receiver android:name=".alarm.AlarmDivigitelOn"/>
-        <receiver android:name=".alarm.AlarmDivigitelOn"/>
+        <receiver android:name=".alarm.AlarmDivigitelOff"/>
     </application>
 
 </manifest>

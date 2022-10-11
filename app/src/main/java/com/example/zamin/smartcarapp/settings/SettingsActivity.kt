@@ -13,13 +13,16 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.zamin.smartcarapp.R
+import com.example.zamin.smartcarapp.alarm.AlarmDivigitelOff
 import com.example.zamin.smartcarapp.alarm.AlarmDivigitelOn
 import com.example.zamin.smartcarapp.databinding.ActivitySettingsBinding
 import com.example.zamin.smartcarapp.databinding.DialogChangePhoneNumberBinding
+import com.example.zamin.smartcarapp.databinding.DialogDivigitelOffTimeBinding
 import com.example.zamin.smartcarapp.databinding.DialogDivigitelOnTimeBinding
 import com.example.zamin.smartcarapp.db.SharedPereferenseHelper
 import com.example.zamin.smartcarapp.utils.getTimeInMillis
 import com.example.zamin.smartcarapp.utils.getTimeInMillisNextDay
+import com.example.zamin.smartcarapp.utils.tosatShort
 
 
 class SettingsActivity : AppCompatActivity() {
@@ -31,7 +34,7 @@ class SettingsActivity : AppCompatActivity() {
     lateinit var pi: PendingIntent
     var hour: Int = 0
     var minute: Int = 0
-
+    var offMinute: Int = 0
     @SuppressLint("ServiceCast")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,15 +45,16 @@ class SettingsActivity : AppCompatActivity() {
         binding.apply {
             sharedPeriferensHelper.apply {
                 btnDivigitelOnTime.text = getDivigitelOnTime()
-                btnDivigitelOffTime.text = getDivigitelOffTime()
+                btnDivigitelOffTime.text = getDivigitelOffTime() + " min"
                 swiDivigitelOnTime.isChecked = getSwitchDvigitelOn()
+                swiDivigitelOffTime.isChecked = getSwitchDvigitelOff()
             }
 
         }
-
-
-        createDivigitelOnTime()
-        dvigitemTimeOnOFF()
+        divigitelOnTimeDialog()
+        switchDvigitemOnTimeOFF()
+        divigitelOffTimeDialog()
+        switchDvigitemOffTimeOnOff()
     }
 
     private fun createPhone() {
@@ -87,7 +91,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
 
-    private fun createDivigitelOnTime() {
+    private fun divigitelOnTimeDialog() {
         binding.btnDivigitelOnTime.setOnClickListener {
             val alertDialog = AlertDialog.Builder(this, R.style.CustomAlertDialog)
             val view = LayoutInflater.from(this).inflate(R.layout.dialog_divigitel_on_time, null)
@@ -108,7 +112,7 @@ class SettingsActivity : AppCompatActivity() {
                         minute = datePicker1.getCurrentMinute()
                     }
                     saveHourAndMinute()
-                    createTimeCheck(getTimeInMillis(hour, minute))
+                    createDvigitelOnTimeCheck(getTimeInMillis(hour, minute))
                     dialog.dismiss()
                 }
                 btnDialogNo.setOnClickListener {
@@ -118,19 +122,7 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
-    private fun createTimeCheck(timeInMillis: Long) {
-        val intent = Intent(this, AlarmDivigitelOn::class.java)
-        intent.putExtra("hour", hour.toString())
-        intent.putExtra("minute", minute.toString())
-        pi = PendingIntent.getBroadcast(this, 0, intent, 0)
-        if (timeInMillis > System.currentTimeMillis()) {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, getTimeInMillis(hour, minute), pi)
-        } else {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, getTimeInMillisNextDay(hour, minute), pi)
-        }
-        binding.swiDivigitelOnTime.isChecked = true
-        sharedPeriferensHelper.setSwitchDvigitelOn(true)
-    }
+
 
     private fun saveHourAndMinute() {
         var a = hour.toString()
@@ -144,7 +136,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
 
-    private fun dvigitemTimeOnOFF() {
+    private fun switchDvigitemOnTimeOFF() {
         hour = sharedPeriferensHelper.getDivigitelOnTime()
             .subSequence(0, sharedPeriferensHelper.getDivigitelOnTime().indexOf(":")).toString()
             .toInt()
@@ -157,32 +149,60 @@ class SettingsActivity : AppCompatActivity() {
         pi = PendingIntent.getBroadcast(this, 0, intent, 0)
         binding.swiDivigitelOnTime.setOnCheckedChangeListener { compoundButton: CompoundButton, b: Boolean ->
             if (b) {
-                createTimeCheck(getTimeInMillis(hour.toString().toInt(), minute.toString().toInt()))
-
+                createDvigitelOnTimeCheck(getTimeInMillis(hour.toString().toInt(),
+                    minute.toString().toInt()))
             } else {
                 alarmManager.cancel(pi)
                 sharedPeriferensHelper.setSwitchDvigitelOn(false)
-                binding.swiDivigitelOnTime.isChecked = false
+                binding.apply {
+                    swiDivigitelOnTime.isChecked = false
+                    swiDivigitelOffTime.isChecked = false
+                }
+                divigitelOffTime(false)
             }
 
         }
     }
 
+    private fun createDvigitelOnTimeCheck(timeInMillis: Long) {
+        val intent = Intent(this, AlarmDivigitelOn::class.java)
+        intent.putExtra("hour", hour.toString())
+        intent.putExtra("minute", minute.toString())
+        pi = PendingIntent.getBroadcast(this, 0, intent, 0)
+        if (timeInMillis > System.currentTimeMillis()) {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, getTimeInMillis(hour, minute), pi)
+        } else {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, getTimeInMillisNextDay(hour, minute), pi)
+        }
+        binding.swiDivigitelOnTime.isChecked = true
+        sharedPeriferensHelper.setSwitchDvigitelOn(true)
+    }
 
-
-    private fun createDivigitelOffTime() {
+    private fun divigitelOffTimeDialog() {
         binding.btnDivigitelOffTime.setOnClickListener {
             val alertDialog = AlertDialog.Builder(this, R.style.CustomAlertDialog)
             val view = LayoutInflater.from(this).inflate(R.layout.dialog_divigitel_off_time, null)
-            val dialogView = DialogChangePhoneNumberBinding.bind(view)
+            val dialogView = DialogDivigitelOffTimeBinding.bind(view)
             alertDialog.setView(view)
             val dialog = alertDialog.create()
             dialog.show()
             dialogView.apply {
                 btnDialogOk.setOnClickListener {
-                    sharedPeriferensHelper.setDivigitelOffTime(phoneNumber.text.toString())
-                    binding.btnDivigitelOffTime.text = phoneNumber.text.toString()+" min"
-                    dialog.dismiss()
+                    if (minute.text.toString().length == 0) {
+                        tosatShort(this@SettingsActivity, "Vaqtni kirting!!")
+                    } else {
+                        sharedPeriferensHelper.apply {
+                            setDivigitelOffTime(minute.text.toString())
+                            setSwitchDvigitelOff(true)
+                        }
+                        binding.apply {
+                            btnDivigitelOffTime.text = minute.text.toString() + " min"
+                            swiDivigitelOffTime.isChecked = true
+                        }
+
+                        divigitelOffTime(true)
+                        dialog.dismiss()
+                    }
                 }
                 btnDialogNo.setOnClickListener {
                     dialog.dismiss()
@@ -192,11 +212,31 @@ class SettingsActivity : AppCompatActivity() {
 
     }
 
+    private fun switchDvigitemOffTimeOnOff() {
+        binding.swiDivigitelOffTime.setOnCheckedChangeListener { compoundButton: CompoundButton, b: Boolean ->
+            if (b) {
+                divigitelOffTime(true)
+            } else {
+                divigitelOffTime(false)
+            }
+        }
+    }
 
-
-
-
-
+    private fun divigitelOffTime(b: Boolean) {
+        offMinute = sharedPeriferensHelper.getDivigitelOffTime().toInt()
+        getTimeInMillis(hour, minute) + offMinute * 10_000L
+        val intent = Intent(this, AlarmDivigitelOff::class.java)
+        pi = PendingIntent.getBroadcast(this, 0, intent, 0)
+        if (b) {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP,
+                getTimeInMillis(hour, minute) + offMinute * 60_000L,
+                pi)
+            sharedPeriferensHelper.setSwitchDvigitelOff(true)
+        } else {
+            alarmManager.cancel(pi)
+            sharedPeriferensHelper.setSwitchDvigitelOff(false)
+        }
+    }
 
 
 }

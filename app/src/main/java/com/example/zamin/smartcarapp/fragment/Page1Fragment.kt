@@ -9,8 +9,9 @@ import com.example.zamin.smartcarapp.databinding.FragmentPage1Binding
 
 class Page1Fragment(val listener: Page1Interfase) :
     BaseFragment<FragmentPage1Binding>(FragmentPage1Binding::inflate) {
-    var motorOnOff = false
     var motor = true
+    var motorOnOff = false
+
     var motorTime = true
     var alarm = true
     var alarmTime = true
