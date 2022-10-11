@@ -52,7 +52,8 @@
                 android:value="" />
         </activity>
 
-        <receiver android:name=".alarm.Alarm"/>
+        <receiver android:name=".alarm.AlarmDivigitelOn"/>
+        <receiver android:name=".alarm.AlarmDivigitelOn"/>
     </application>
 
 </manifest>
