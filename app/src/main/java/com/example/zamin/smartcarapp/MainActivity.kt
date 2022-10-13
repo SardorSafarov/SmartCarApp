@@ -41,15 +41,15 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
 
     private fun carAbout() {
         binding.apply {
-           carC.text= "+ ${CAR_ABOUT.substring(0,2)} C"
-            if (CAR_ABOUT.substring(2,3).toInt()==1)
+           carC.text= "+ ${CAR_ABOUT.substring(1,3)} C"
+            if (CAR_ABOUT.substring(3,4).toInt()==1)
             {
                 imgMainCar.setImageResource(R.drawable.sedan_open_trunk)
             }else
             {
                 imgMainCar.setImageResource(R.drawable.sedan_main)
             }
-            if (CAR_ABOUT.substring(3,4).toInt()==2)
+            if (CAR_ABOUT.substring(4,5).toInt()==2)
             {
                 animMotor.invisible()
             }else
@@ -68,8 +68,10 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
 
     override fun securityListener(boolean: Boolean) {
         if (boolean) {
+            sendSms(sharedPereferenseHelper,"*2*")
             binding.imgDome.invisible()
         } else {
+            sendSms(sharedPereferenseHelper,"*3*")
             binding.imgDome.visible()
         }
         vibirator(this)
@@ -78,10 +80,12 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
     override fun motorListener(boolean: Boolean) {
         if (boolean) {
             mediaPlayer(this,R.raw.engine_stop)
+            sendSms(sharedPereferenseHelper,"*0*")
             sleep(2000)
             binding.animMotor.invisible()
         } else {
             mediaPlayer(this,R.raw.engine_start)
+            sendSms(sharedPereferenseHelper,"*1*")
             sleep(2000)
             binding.animMotor.visible()
 
@@ -89,15 +93,10 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
         vibirator(this)
     }
 
-    override fun onBackPressed() {
-        if (binding.viewPage2.currentItem == 0)
-            super.onBackPressed()
-        else
-            binding.viewPage2.currentItem--
-    }
 
     override fun carTrunk() {
         binding.imgMainCar.setImageResource(R.drawable.sedan_open_trunk)
+        sendSms(sharedPereferenseHelper,"*4*")
         sleep(1000)
         mediaPlayer(this,R.raw.trunk_open)
     }
@@ -114,4 +113,12 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
             checkSendMessagePerimetion()
         }
     }
+
+    override fun onBackPressed() {
+        if (binding.viewPage2.currentItem == 0)
+            super.onBackPressed()
+        else
+            binding.viewPage2.currentItem--
+    }
+
 }

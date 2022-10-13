@@ -85,7 +85,11 @@ fun readSms(
        try {
           if (number.contains(sharedPeriferensHelper.getPhone()))
           {
-              return text
+            if (text.contains("&"))
+            {
+                D(text)
+                return text
+            }
           }
        }catch (e:Exception){
            D(e.toString())

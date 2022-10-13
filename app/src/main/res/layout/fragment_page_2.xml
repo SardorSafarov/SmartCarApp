@@ -69,6 +69,7 @@
             app:strokeWidth="5dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/btn_car_bib_bib"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#636363"
