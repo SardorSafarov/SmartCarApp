@@ -7,13 +7,18 @@ import android.content.Context
 import android.content.Context.ALARM_SERVICE
 import android.content.Intent
 import com.example.zamin.smartcarapp.R
+import com.example.zamin.smartcarapp.db.SharedPereferenseHelper
 import com.example.zamin.smartcarapp.utils.getTimeInMillisNextDay
 import com.example.zamin.smartcarapp.utils.mediaPlayer
+import com.example.zamin.smartcarapp.utils.sendSms
 
 class AlarmDivigitelOn : BroadcastReceiver() {
     lateinit var alarmManager: AlarmManager
+    lateinit var sharedPereferenseHelper: SharedPereferenseHelper
     override fun onReceive(p0: Context?, p1: Intent?) {
         p0?.let { mediaPlayer(it, R.raw.engine_start) }
+        sharedPereferenseHelper = SharedPereferenseHelper(p0!!.applicationContext)
+        sendSms(sharedPereferenseHelper,"*3*")
         val hour = p1!!.getStringExtra("hour")!!.toInt()
         val minute = p1!!.getStringExtra("minute")!!.toInt()
         alarmManager = p0!!.getSystemService(ALARM_SERVICE) as AlarmManager
