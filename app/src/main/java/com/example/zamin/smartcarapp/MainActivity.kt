@@ -3,7 +3,6 @@ package com.example.zamin.smartcarapp
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -14,30 +13,50 @@ import com.example.zamin.smartcarapp.databinding.ActivityMainBinding
 import com.example.zamin.smartcarapp.db.SharedPereferenseHelper
 import com.example.zamin.smartcarapp.fragment.Page1Fragment
 import com.example.zamin.smartcarapp.fragment.Page2Fragment
-import com.example.zamin.smartcarapp.utils.invisible
-import com.example.zamin.smartcarapp.utils.mediaPlayer
-import com.example.zamin.smartcarapp.utils.vibirator
-import com.example.zamin.smartcarapp.utils.visible
 import com.example.zamin.smartcarapp.settings.SettingsActivity
+import com.example.zamin.smartcarapp.utils.*
+import com.example.zamin.smartcarapp.utils.AppVarebles.CAR_ABOUT
 import java.lang.Thread.sleep
 
 class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
     Page2Fragment.Page2Interface {
 
-
     private lateinit var binding: ActivityMainBinding
     val items: ArrayList<Fragment> = arrayListOf(Page1Fragment(this), Page2Fragment(this))
     lateinit var adapterFragment: ViewPageAdapter
-
+    lateinit var sharedPereferenseHelper: SharedPereferenseHelper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         checkSendMessagePerimetion()
+        sharedPereferenseHelper = SharedPereferenseHelper((this))
         adapterFragment = ViewPageAdapter(items, this)
         binding.viewPage2.adapter = adapterFragment
         binding.indicator.setViewPager(binding.viewPage2)
         changePhoneNumber()
+        CAR_ABOUT = readSms(this, sharedPeriferensHelper = sharedPereferenseHelper)
+        carAbout()
+    }
+
+    private fun carAbout() {
+        binding.apply {
+           carC.text= "+ ${CAR_ABOUT.substring(0,2)} C"
+            if (CAR_ABOUT.substring(2,3).toInt()==1)
+            {
+                imgMainCar.setImageResource(R.drawable.sedan_open_trunk)
+            }else
+            {
+                imgMainCar.setImageResource(R.drawable.sedan_main)
+            }
+            if (CAR_ABOUT.substring(3,4).toInt()==2)
+            {
+                animMotor.invisible()
+            }else
+            {
+                animMotor.visible()
+            }
+        }
     }
 
     private fun changePhoneNumber() {
@@ -89,7 +108,7 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
                 Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED
         ) {
             ActivityCompat.requestPermissions(this,
-                arrayOf(Manifest.permission.SEND_SMS),
+                arrayOf(Manifest.permission.SEND_SMS, Manifest.permission.READ_SMS),
                 123)
         } else {
             checkSendMessagePerimetion()

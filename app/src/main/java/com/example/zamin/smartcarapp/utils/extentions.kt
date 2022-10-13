@@ -1,16 +1,18 @@
 package com.example.zamin.smartcarapp.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Build
 import android.os.CountDownTimer
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.provider.Telephony
 import android.telephony.SmsManager
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.zamin.smartcarapp.db.SharedPereferenseHelper
 import java.util.*
 
@@ -45,25 +47,61 @@ fun vibirator(applicationContext: Context) {
     }
 }
 
-fun mediaPlayer(context: Context,id:Int)
-{
+fun mediaPlayer(context: Context, id: Int) {
     var mediaPlayer = MediaPlayer.create(context, id)
     mediaPlayer.start()
 }
 
 
-fun sendSms(sharedPeriferensHelper: SharedPereferenseHelper,sms:String) {
+fun sendSms(sharedPeriferensHelper: SharedPereferenseHelper, sms: String) {
     val smsManager: SmsManager = SmsManager.getDefault()
     smsManager.sendTextMessage(sharedPeriferensHelper.getPhone(), null, sms, null, null)
 }
 
-fun getTimeInMillis(hour: Int, minute: Int):Long {
+@SuppressLint("Range")
+fun readSms(
+    context: Context,
+    sharedPeriferensHelper: SharedPereferenseHelper,
+): String {
+    val numberCol = Telephony.TextBasedSmsColumns.ADDRESS
+    val textCol = Telephony.TextBasedSmsColumns.BODY
+    val typeCol = Telephony.TextBasedSmsColumns.TYPE // 1 - Inbox, 2 - Sent
+
+    val projection = arrayOf(numberCol, textCol, typeCol)
+
+    val cursor = context.contentResolver.query(
+        Telephony.Sms.CONTENT_URI,
+        projection, null, null, null
+    )
+
+    val numberColIdx = cursor!!.getColumnIndex(numberCol)
+    val textColIdx = cursor.getColumnIndex(textCol)
+    val typeColIdx = cursor.getColumnIndex(typeCol)
+
+    while (cursor.moveToNext()) {
+        val number = cursor.getString(numberColIdx)
+        val text = cursor.getString(textColIdx)
+        val type = cursor.getString(typeColIdx)
+       try {
+          if (number.contains(sharedPeriferensHelper.getPhone()))
+          {
+              return text
+          }
+       }catch (e:Exception){
+           D(e.toString())
+       }
+    }
+    cursor.close()
+    return ""
+}
+
+fun getTimeInMillis(hour: Int, minute: Int): Long {
     val calendar = Calendar.getInstance()
     calendar.apply {
         set(Calendar.HOUR_OF_DAY, hour)
         set(Calendar.MINUTE, minute)
-        set(Calendar.SECOND,0)
-        set(Calendar.MILLISECOND,0)
+        set(Calendar.SECOND, 0)
+        set(Calendar.MILLISECOND, 0)
     }
     return calendar.timeInMillis
 }
