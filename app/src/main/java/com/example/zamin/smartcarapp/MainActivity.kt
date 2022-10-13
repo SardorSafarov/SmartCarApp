@@ -36,30 +36,43 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
         adapterFragment = ViewPageAdapter(items, this)
         binding.viewPage2.adapter = adapterFragment
         binding.indicator.setViewPager(binding.viewPage2)
+
         changePhoneNumber()
+
         carAbout()
 
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private fun carAbout() {
-        if (sharedPereferenseHelper.getPhone() != "empty")
-            CAR_ABOUT = readSms(this, sharedPeriferensHelper = sharedPereferenseHelper)
-          binding.apply {
-            if (CAR_ABOUT != "") {
-                carC.text = "+ ${CAR_ABOUT.substring(1, 3)} C"
-                if (CAR_ABOUT.substring(3, 4) == "o") {
-                    imgMainCar.setImageResource(R.drawable.sedan_open_trunk)
-                } else {
-                    imgMainCar.setImageResource(R.drawable.sedan_main)
-                }
-                if (CAR_ABOUT.substring(4, 5) == "y") {
-                    animMotor.invisible()
-                }else {
-                    animMotor.visible()
-                }
-            }
-        }
+        Thread {
+            try {
+                if (sharedPereferenseHelper.getPhone() != "empty")
+                    CAR_ABOUT = readSms(this, sharedPeriferensHelper = sharedPereferenseHelper)
+                binding.apply {
 
+                    if (CAR_ABOUT != "") {
+
+                        carC.text = "+ ${CAR_ABOUT.substring(1, 3)} C"
+                        if (CAR_ABOUT.substring(3, 4) == "o") {
+                            imgMainCar.setImageResource(R.drawable.sedan_open_trunk)
+                        } else {
+                            imgMainCar.setImageResource(R.drawable.sedan_main)
+                        }
+                        if (CAR_ABOUT.substring(4, 5) == "y") {
+                            animMotor.invisible()
+                        } else {
+                            animMotor.visible()
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                D(e.message.toString())
+            }
+
+            sleep(10_000)
+            carAbout()
+        }.start()
     }
 
     private fun changePhoneNumber() {
