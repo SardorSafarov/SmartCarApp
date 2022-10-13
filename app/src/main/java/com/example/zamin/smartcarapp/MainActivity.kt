@@ -1,6 +1,7 @@
 package com.example.zamin.smartcarapp
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
     val items: ArrayList<Fragment> = arrayListOf(Page1Fragment(this), Page2Fragment(this))
     lateinit var adapterFragment: ViewPageAdapter
     lateinit var sharedPereferenseHelper: SharedPereferenseHelper
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -35,26 +37,26 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
         binding.viewPage2.adapter = adapterFragment
         binding.indicator.setViewPager(binding.viewPage2)
         changePhoneNumber()
+        D(sharedPereferenseHelper.getPhone())
+        if (sharedPereferenseHelper.getPhone()!="empty")
         CAR_ABOUT = readSms(this, sharedPeriferensHelper = sharedPereferenseHelper)
         carAbout()
     }
 
     private fun carAbout() {
         binding.apply {
-           carC.text= "+ ${CAR_ABOUT.substring(1,3)} C"
-            if (CAR_ABOUT.substring(3,4).toInt()==1)
-            {
-                imgMainCar.setImageResource(R.drawable.sedan_open_trunk)
-            }else
-            {
-                imgMainCar.setImageResource(R.drawable.sedan_main)
-            }
-            if (CAR_ABOUT.substring(4,5).toInt()==2)
-            {
-                animMotor.invisible()
-            }else
-            {
-                animMotor.visible()
+            if (CAR_ABOUT != "") {
+                carC.text = "+ ${CAR_ABOUT.substring(1, 3)} C"
+                if (CAR_ABOUT.substring(3, 4) == "o") {
+                    imgMainCar.setImageResource(R.drawable.sedan_open_trunk)
+                } else {
+                    imgMainCar.setImageResource(R.drawable.sedan_main)
+                }
+                if (CAR_ABOUT.substring(4, 5) == "y") {
+                    animMotor.invisible()
+                }else {
+                    animMotor.visible()
+                }
             }
         }
     }

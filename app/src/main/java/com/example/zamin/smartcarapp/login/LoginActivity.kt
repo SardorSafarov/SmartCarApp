@@ -22,7 +22,7 @@ class LoginActivity : AppCompatActivity() {
         binding.btnLogin.setOnClickListener {
             if (binding.edtLogin.text.toString().trim() == "Smartcar" && binding.edtPassword.text.toString().trim() == "112233") {
                 startActivity(Intent(this,MainActivity::class.java))
-                sharedPereferenseHelper.setLogin("login")
+                sharedPereferenseHelper.setLogin("loginn")
                 finish()
             } else {
                 tosatLong(context = this, "Login parol xato!")

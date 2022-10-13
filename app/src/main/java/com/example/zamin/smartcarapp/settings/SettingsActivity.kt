@@ -20,6 +20,7 @@ import com.example.zamin.smartcarapp.databinding.DialogChangePhoneNumberBinding
 import com.example.zamin.smartcarapp.databinding.DialogDivigitelOffTimeBinding
 import com.example.zamin.smartcarapp.databinding.DialogDivigitelOnTimeBinding
 import com.example.zamin.smartcarapp.db.SharedPereferenseHelper
+import com.example.zamin.smartcarapp.utils.D
 import com.example.zamin.smartcarapp.utils.getTimeInMillis
 import com.example.zamin.smartcarapp.utils.getTimeInMillisNextDay
 import com.example.zamin.smartcarapp.utils.tosatShort
@@ -49,12 +50,16 @@ class SettingsActivity : AppCompatActivity() {
                 swiDivigitelOnTime.isChecked = getSwitchDvigitelOn()
                 swiDivigitelOffTime.isChecked = getSwitchDvigitelOff()
             }
-
         }
-        divigitelOnTimeDialog()
-        switchDvigitemOnTimeOFF()
-        divigitelOffTimeDialog()
-        switchDvigitemOffTimeOnOff()
+        try {
+            divigitelOnTimeDialog()
+            switchDvigitemOnTimeOFF()
+            divigitelOffTimeDialog()
+            switchDvigitemOffTimeOnOff()
+        }catch (e:Exception){
+            D(e.message.toString())
+        }
+
     }
 
     private fun createPhone() {
@@ -136,6 +141,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
 
+    @SuppressLint("SuspiciousIndentation")
     private fun switchDvigitemOnTimeOFF() {
         hour = sharedPeriferensHelper.getDivigitelOnTime()
             .subSequence(0, sharedPeriferensHelper.getDivigitelOnTime().indexOf(":")).toString()
@@ -149,6 +155,7 @@ class SettingsActivity : AppCompatActivity() {
         pi = PendingIntent.getBroadcast(this, 0, intent, 0)
         binding.swiDivigitelOnTime.setOnCheckedChangeListener { compoundButton: CompoundButton, b: Boolean ->
             if (b) {
+                if (sharedPeriferensHelper.getPhone()!="empty")
                 createDvigitelOnTimeCheck(getTimeInMillis(hour.toString().toInt(),
                     minute.toString().toInt()))
             } else {
@@ -215,6 +222,7 @@ class SettingsActivity : AppCompatActivity() {
     private fun switchDvigitemOffTimeOnOff() {
         binding.swiDivigitelOffTime.setOnCheckedChangeListener { compoundButton: CompoundButton, b: Boolean ->
             if (b) {
+                if (sharedPeriferensHelper.getPhone()!="empty")
                 divigitelOffTime(true)
             } else {
                 divigitelOffTime(false)
@@ -228,6 +236,7 @@ class SettingsActivity : AppCompatActivity() {
         val intent = Intent(this, AlarmDivigitelOff::class.java)
         pi = PendingIntent.getBroadcast(this, 0, intent, 0)
         if (b) {
+            if (sharedPeriferensHelper.getPhone()!="empty")
             alarmManager.setExact(AlarmManager.RTC_WAKEUP,
                 getTimeInMillis(hour, minute) + offMinute * 60_000L,
                 pi)

@@ -35,18 +35,19 @@ class Page2Fragment(val listener: Page2Interface) :
                 true
             }
             btnCarMatorOff.setOnLongClickListener {
-                BTN_CHECK = checkMotorTime(requireContext())
-                if (BTN_CHECK){
-                    sendSms(sharedPereferenseHelper,"*0*")
-                    mediaPlayer(requireContext(), R.raw.engine_stop)
-                    vibirator(requireContext())
-                    BTN_CHECK = false
+                if (checkPhone()) {
+                    BTN_CHECK = checkMotorTime(requireContext())
+                    if (BTN_CHECK) {
+                        sendSms(sharedPereferenseHelper, "*0*")
+                        mediaPlayer(requireContext(), R.raw.engine_stop)
+                        vibirator(requireContext())
+                        BTN_CHECK = false
+                    }
                 }
                 true
             }
 
             btnCarBibBib.setOnLongClickListener {
-
                 if (checkPhone()) {
                     BTN_CHECK = checkMotorTime(requireContext())
                     if (BTN_CHECK){
@@ -58,6 +59,56 @@ class Page2Fragment(val listener: Page2Interface) :
                 }
                 true
             }
+            btnAux1.setOnLongClickListener {
+                if (checkPhone()) {
+                    BTN_CHECK = checkMotorTime(requireContext())
+                    if (BTN_CHECK){
+
+                        sendSms(sharedPereferenseHelper,"*6*")
+                        vibirator(requireContext())
+                        BTN_CHECK = false
+                    }
+                }
+                true
+            }
+            btnAux2.setOnLongClickListener {
+                if (checkPhone()) {
+                    BTN_CHECK = checkMotorTime(requireContext())
+                    if (BTN_CHECK){
+
+                        sendSms(sharedPereferenseHelper,"*7*")
+                        vibirator(requireContext())
+                        BTN_CHECK = false
+                    }
+                }
+                true
+            }
+
+            btnRed1.setOnLongClickListener {
+                if (checkPhone()) {
+                    BTN_CHECK = checkMotorTime(requireContext())
+                    if (BTN_CHECK){
+
+                        sendSms(sharedPereferenseHelper,"*8*")
+                        vibirator(requireContext())
+                        BTN_CHECK = false
+                    }
+                }
+                true
+            }
+            btnRed2.setOnLongClickListener {
+                if (checkPhone()) {
+                    BTN_CHECK = checkMotorTime(requireContext())
+                    if (BTN_CHECK){
+
+                        sendSms(sharedPereferenseHelper,"*9*")
+                        vibirator(requireContext())
+                        BTN_CHECK = false
+                    }
+                }
+                true
+            }
+
         }
     }
 
