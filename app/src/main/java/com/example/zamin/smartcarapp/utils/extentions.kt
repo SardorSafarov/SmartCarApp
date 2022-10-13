@@ -65,7 +65,7 @@ fun readSms(
 ): String {
     val numberCol = Telephony.TextBasedSmsColumns.ADDRESS
     val textCol = Telephony.TextBasedSmsColumns.BODY
-    val typeCol = Telephony.TextBasedSmsColumns.TYPE // 1 - Inbox, 2 - Sent
+    val typeCol = Telephony.TextBasedSmsColumns.TYPE
 
     val projection = arrayOf(numberCol, textCol, typeCol)
 

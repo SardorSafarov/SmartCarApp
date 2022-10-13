@@ -37,14 +37,14 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
         binding.viewPage2.adapter = adapterFragment
         binding.indicator.setViewPager(binding.viewPage2)
         changePhoneNumber()
-        D(sharedPereferenseHelper.getPhone())
-        if (sharedPereferenseHelper.getPhone()!="empty")
-        CAR_ABOUT = readSms(this, sharedPeriferensHelper = sharedPereferenseHelper)
         carAbout()
+
     }
 
     private fun carAbout() {
-        binding.apply {
+        if (sharedPereferenseHelper.getPhone() != "empty")
+            CAR_ABOUT = readSms(this, sharedPeriferensHelper = sharedPereferenseHelper)
+          binding.apply {
             if (CAR_ABOUT != "") {
                 carC.text = "+ ${CAR_ABOUT.substring(1, 3)} C"
                 if (CAR_ABOUT.substring(3, 4) == "o") {
@@ -59,6 +59,7 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
                 }
             }
         }
+
     }
 
     private fun changePhoneNumber() {
@@ -93,6 +94,7 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
 
         }
         vibirator(this)
+        carAbout()
     }
 
 
