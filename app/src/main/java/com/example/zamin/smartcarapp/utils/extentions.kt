@@ -3,12 +3,14 @@ package com.example.zamin.smartcarapp.utils
 import android.content.Context
 import android.media.MediaPlayer
 import android.os.Build
+import android.os.CountDownTimer
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.telephony.SmsManager
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.zamin.smartcarapp.db.SharedPereferenseHelper
 import java.util.*
 
@@ -76,4 +78,22 @@ fun getTimeInMillisNextDay(hour: Int, minute: Int):Long {
         set(Calendar.MILLISECOND,0)
     }
     return calendar.timeInMillis
+}
+
+
+fun checkMotorTime(context: Context): Boolean {
+    if (AppVarebles.BTN_CHECK) {
+        object : CountDownTimer(10_000, 10_000) {
+            override fun onTick(p0: Long) {
+
+            }
+            override fun onFinish() {
+                AppVarebles.BTN_CHECK = true
+            }
+        }.start()
+    }
+    else{
+        tosatShort(context,"Sabir")
+    }
+    return AppVarebles.BTN_CHECK
 }

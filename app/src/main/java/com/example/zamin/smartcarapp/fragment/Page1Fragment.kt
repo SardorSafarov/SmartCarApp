@@ -5,17 +5,15 @@ import android.annotation.SuppressLint
 import android.os.CountDownTimer
 import android.widget.Toast
 import com.example.zamin.smartcarapp.databinding.FragmentPage1Binding
+import com.example.zamin.smartcarapp.utils.AppVarebles.BTN_CHECK
+import com.example.zamin.smartcarapp.utils.D
+import com.example.zamin.smartcarapp.utils.checkMotorTime
+import com.example.zamin.smartcarapp.utils.tosatShort
 
 
 class Page1Fragment(val listener: Page1Interfase) :
     BaseFragment<FragmentPage1Binding>(FragmentPage1Binding::inflate) {
-    var motor = true
     var motorOnOff = false
-
-    var motorTime = true
-    var alarm = true
-    var alarmTime = true
-
     interface Page1Interfase {
         fun securityListener(boolean: Boolean)
         fun motorListener(boolean: Boolean)
@@ -30,75 +28,40 @@ class Page1Fragment(val listener: Page1Interfase) :
         binding.apply {
 
             btnCarMator.setOnLongClickListener {
-
                 if (checkPhone()) {
-                    motor = checkMotorTime()
-                    if (motor) {
+                    BTN_CHECK = checkMotorTime(requireContext())
+                    if (BTN_CHECK) {
                         listener.motorListener(motorOnOff)
-                        motor = false
+                        BTN_CHECK = false
                         motorOnOff = !motorOnOff
                     }
                 }
-
                 true
             }
 
             btnCardLockOn.setOnLongClickListener {
                 if (checkPhone())
-                    alarm = checkAlarm()
-                if (alarm) {
+                    BTN_CHECK = checkMotorTime(requireContext())
+                if (BTN_CHECK) {
                     listener.securityListener(true)
-                    alarm = false
+                    BTN_CHECK = false
                 }
                 true
             }
             btnCardLockOff.setOnLongClickListener {
                 if (checkPhone()) {
-                    alarm = checkAlarm()
-                    if (alarm) {
+                    BTN_CHECK = checkMotorTime(requireContext())
+                    if (BTN_CHECK) {
                         listener.securityListener(false)
-                        alarm = false
+                        BTN_CHECK = false
                     }
                 }
-
                 true
             }
         }
     }
 
-    private fun checkAlarm(): Boolean {
-        if (alarmTime) {
-            object : CountDownTimer(10_000, 10_000) {
-                override fun onTick(p0: Long) {
 
-                }
-
-                override fun onFinish() {
-                    alarm = true
-                    alarmTime = true
-                }
-            }.start()
-            alarmTime = false
-        }
-        return alarm
-    }
-
-    private fun checkMotorTime(): Boolean {
-        if (motorTime) {
-            object : CountDownTimer(10_000, 10_000) {
-                override fun onTick(p0: Long) {
-
-                }
-
-                override fun onFinish() {
-                    motor = true
-                    motorTime = true
-                }
-            }.start()
-            motorTime = false
-        }
-        return motor
-    }
 
     private fun checkPhone(): Boolean {
         if (sharedPereferenseHelper.getPhone() == "empty") {
