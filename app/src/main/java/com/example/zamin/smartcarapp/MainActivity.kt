@@ -36,9 +36,7 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
         adapterFragment = ViewPageAdapter(items, this)
         binding.viewPage2.adapter = adapterFragment
         binding.indicator.setViewPager(binding.viewPage2)
-
         changePhoneNumber()
-
         carAbout()
 
     }
@@ -50,9 +48,7 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
                 if (sharedPereferenseHelper.getPhone() != "empty")
                     CAR_ABOUT = readSms(this, sharedPeriferensHelper = sharedPereferenseHelper)
                 binding.apply {
-
                     if (CAR_ABOUT != "") {
-
                         carC.text = "+ ${CAR_ABOUT.substring(1, 3)} C"
                         if (CAR_ABOUT.substring(3, 4) == "o") {
                             imgMainCar.setImageResource(R.drawable.sedan_open_trunk)
@@ -61,15 +57,25 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
                         }
                         if (CAR_ABOUT.substring(4, 5) == "y") {
                             animMotor.invisible()
-                        } else {
+                        }
+                        else
+                        {
                             animMotor.visible()
                         }
+                        if (CAR_ABOUT.substring(5, 6) == "y")
+                        {
+                            binding.imgDome.visible()
+                        }
+                        else
+                        {
+                            binding.imgDome.invisible()
+                        }
+
                     }
                 }
             } catch (e: Exception) {
                 D(e.message.toString())
             }
-
             sleep(10_000)
             carAbout()
         }.start()
@@ -85,10 +91,10 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
     override fun securityListener(boolean: Boolean) {
         if (boolean) {
             sendSms(sharedPereferenseHelper,"*2*")
-            binding.imgDome.invisible()
+          //  binding.imgDome.invisible()
         } else {
             sendSms(sharedPereferenseHelper,"*3*")
-            binding.imgDome.visible()
+           // binding.imgDome.visible()
         }
         vibirator(this)
     }
@@ -98,12 +104,12 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
             mediaPlayer(this,R.raw.engine_stop)
             sendSms(sharedPereferenseHelper,"*0*")
             sleep(2000)
-            binding.animMotor.invisible()
+          //  binding.animMotor.invisible()
         } else {
             mediaPlayer(this,R.raw.engine_start)
             sendSms(sharedPereferenseHelper,"*1*")
             sleep(2000)
-            binding.animMotor.visible()
+          //  binding.animMotor.visible()
 
         }
         vibirator(this)
@@ -112,7 +118,7 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
 
 
     override fun carTrunk() {
-        binding.imgMainCar.setImageResource(R.drawable.sedan_open_trunk)
+       // binding.imgMainCar.setImageResource(R.drawable.sedan_open_trunk)
         sendSms(sharedPereferenseHelper,"*4*")
         sleep(1000)
         mediaPlayer(this,R.raw.trunk_open)
