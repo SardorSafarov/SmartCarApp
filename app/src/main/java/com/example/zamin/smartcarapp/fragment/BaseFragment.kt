@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.example.zamin.smartcarapp.db.SharedPereferenseHelper
@@ -25,6 +26,7 @@ abstract class BaseFragment<VB : ViewBinding>(
     ): View? {
         sharedPereferenseHelper = SharedPereferenseHelper(inflater.context)
         _binding = inflate.invoke(inflater, container, false)
+
         return binding.root
     }
 

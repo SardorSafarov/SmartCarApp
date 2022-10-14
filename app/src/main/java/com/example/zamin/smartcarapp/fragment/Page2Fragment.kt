@@ -1,7 +1,9 @@
 package com.example.zamin.smartcarapp.fragment
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import com.example.zamin.smartcarapp.R
 import com.example.zamin.smartcarapp.databinding.FragmentPage2Binding
 import com.example.zamin.smartcarapp.utils.AppVarebles.BTN_CHECK

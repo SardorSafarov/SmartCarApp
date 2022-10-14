@@ -1,6 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.SmartCarApp" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -13,7 +14,7 @@
         <item name="android:statusBarColor">#075d99</item>
         <!-- Customize your theme here. -->
     </style>
-    <style name="CustomAlertDialog" parent="Theme.AppCompat.DayNight.Dialog.Alert">
+    <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:windowBackground">@drawable/bg_alert_dialog</item>
         <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
         <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>

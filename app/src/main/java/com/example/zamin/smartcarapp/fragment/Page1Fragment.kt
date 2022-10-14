@@ -2,25 +2,24 @@ package com.example.zamin.smartcarapp.fragment
 
 
 import android.annotation.SuppressLint
-import android.os.CountDownTimer
-import android.widget.Toast
+import android.content.Context
+import androidx.appcompat.app.AppCompatDelegate
 import com.example.zamin.smartcarapp.databinding.FragmentPage1Binding
 import com.example.zamin.smartcarapp.utils.AppVarebles.BTN_CHECK
-import com.example.zamin.smartcarapp.utils.D
+import com.example.zamin.smartcarapp.utils.AppVarebles.MATOROFF
 import com.example.zamin.smartcarapp.utils.checkMotorTime
 import com.example.zamin.smartcarapp.utils.checkPhone
-import com.example.zamin.smartcarapp.utils.tosatShort
 
 
 class Page1Fragment(val listener: Page1Interfase) :
     BaseFragment<FragmentPage1Binding>(FragmentPage1Binding::inflate) {
-    var motorOnOff = false
     interface Page1Interfase {
         fun securityListener(boolean: Boolean)
         fun motorListener(boolean: Boolean)
     }
 
     override fun onViewCreate() {
+
         setOnclicListener()
     }
 
@@ -32,14 +31,13 @@ class Page1Fragment(val listener: Page1Interfase) :
                 if (checkPhone(requireContext(),sharedPereferenseHelper)) {
                     BTN_CHECK = checkMotorTime(requireContext())
                     if (BTN_CHECK) {
-                        listener.motorListener(motorOnOff)
+                        listener.motorListener(MATOROFF)
                         BTN_CHECK = false
-                        motorOnOff = !motorOnOff
+                        MATOROFF = !MATOROFF
                     }
                 }
                 true
             }
-
             btnCardLockOn.setOnLongClickListener {
                 if (checkPhone(requireContext(),sharedPereferenseHelper))
                     BTN_CHECK = checkMotorTime(requireContext())

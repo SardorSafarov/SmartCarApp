@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -38,7 +39,6 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
         binding.indicator.setViewPager(binding.viewPage2)
         changePhoneNumber()
         carAbout()
-
     }
 
     @SuppressLint("SuspiciousIndentation")
@@ -58,10 +58,12 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
                         }
                         if (CAR_ABOUT.substring(4, 5) == "y") {
                             animMotor.invisible()
+                            AppVarebles.MATOROFF = false
                         }
                         else
                         {
                             animMotor.visible()
+                            AppVarebles.MATOROFF = true
                         }
                         if (CAR_ABOUT.substring(5, 6) == "y")
                         {
@@ -92,10 +94,8 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
     override fun securityListener(boolean: Boolean) {
         if (boolean) {
             sendSms(sharedPereferenseHelper,"*2*")
-          //  binding.imgDome.invisible()
         } else {
             sendSms(sharedPereferenseHelper,"*3*")
-           // binding.imgDome.visible()
         }
         vibirator(this)
     }
@@ -105,13 +105,10 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
             mediaPlayer(this,R.raw.engine_stop)
             sendSms(sharedPereferenseHelper,"*0*")
             sleep(2000)
-          //  binding.animMotor.invisible()
         } else {
             mediaPlayer(this,R.raw.engine_start)
             sendSms(sharedPereferenseHelper,"*1*")
             sleep(2000)
-          //  binding.animMotor.visible()
-
         }
         vibirator(this)
         carAbout()

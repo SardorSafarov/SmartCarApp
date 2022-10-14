@@ -26,17 +26,17 @@ class SharedPereferenseHelper(val context: Context) {
 
      fun setDivigitelOnTime(string: String) {
         editor = sharedPreferences.edit()
-        editor.putString("time",string)
+        editor.putString("timeq",string)
         editor.commit()
     }
-    fun getDivigitelOnTime() = sharedPreferences.getString("time","00:00").toString()
+    fun getDivigitelOnTime() = sharedPreferences.getString("timeq","00:00").toString()
 
     fun setDivigitelOffTime(string: String){
         editor = sharedPreferences.edit()
-        editor.putString("divigitelTime",string)
+        editor.putString("divigitelTimee",string)
         editor.commit()
     }
-    fun getDivigitelOffTime() = sharedPreferences.getString("divigitelTime","0").toString()
+    fun getDivigitelOffTime() = sharedPreferences.getString("divigitelTimee","0").toString()
 
 
     fun setSwitchDvigitelOn(bool: Boolean) {

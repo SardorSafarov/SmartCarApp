@@ -105,19 +105,26 @@ class SettingsActivity : AppCompatActivity() {
                 alertDialog.setCancelable(false)
                 val dialog = alertDialog.create()
                 dialog.show()
-
                 dialogView.apply {
                     datePicker1.setIs24HourView(true)
                     btnDialogOk.setOnClickListener {
-                        if (Build.VERSION.SDK_INT >= 23) {
-                            hour = datePicker1.getHour()
-                            minute = datePicker1.getMinute()
-                        } else {
-                            hour = datePicker1.getCurrentHour()
-                            minute = datePicker1.getCurrentMinute()
+                        try {
+                            if (Build.VERSION.SDK_INT >= 23) {
+                                hour = datePicker1.getHour()
+                                minute = datePicker1.getMinute()
+                            } else {
+                                hour = datePicker1.getCurrentHour()
+                                minute = datePicker1.getCurrentMinute()
+                            }
+                            saveHourAndMinute()
+                            createDvigitelOnTimeCheck(getTimeInMillis(hour, minute))
+
+                        } catch (e: Exception) {
+                            Toast.makeText(this@SettingsActivity,
+                                "${e.message}",
+                                Toast.LENGTH_SHORT).show()
+                            binding.erorr.text = "${e.message.toString()}\nErorr:${e.message}"
                         }
-                        saveHourAndMinute()
-                        createDvigitelOnTimeCheck(getTimeInMillis(hour, minute))
                         dialog.dismiss()
                     }
                     btnDialogNo.setOnClickListener {
@@ -153,7 +160,21 @@ class SettingsActivity : AppCompatActivity() {
         val intent = Intent(this, AlarmDivigitelOn::class.java)
         intent.putExtra("hour", hour.toString())
         intent.putExtra("minute", minute.toString())
-        pi = PendingIntent.getBroadcast(this, 0, intent, 0)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            pi = PendingIntent.getBroadcast(
+                getApplication(),
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+            )
+        } else {
+            pi = PendingIntent.getBroadcast(
+                getApplication(),
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
+        }
         binding.swiDivigitelOnTime.setOnCheckedChangeListener { compoundButton: CompoundButton, b: Boolean ->
             if (checkPhone(this, sharedPeriferensHelper)) {
                 if (b) {
@@ -180,7 +201,22 @@ class SettingsActivity : AppCompatActivity() {
         val intent = Intent(this, AlarmDivigitelOn::class.java)
         intent.putExtra("hour", hour.toString())
         intent.putExtra("minute", minute.toString())
-        pi = PendingIntent.getBroadcast(this, 0, intent, 0)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            pi = PendingIntent.getBroadcast(
+                getApplication(),
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+            )
+        } else {
+            pi = PendingIntent.getBroadcast(
+                getApplication(),
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
+        }
+
         if (timeInMillis > System.currentTimeMillis()) {
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, getTimeInMillis(hour, minute), pi)
         } else {
@@ -202,22 +238,28 @@ class SettingsActivity : AppCompatActivity() {
                 dialog.show()
                 dialogView.apply {
                     btnDialogOk.setOnClickListener {
+                        try {
+                            if (minute.text.toString().length == 0) {
+                                tosatShort(this@SettingsActivity, "Vaqtni kirting!!")
+                            } else {
+                                sharedPeriferensHelper.apply {
+                                    setDivigitelOffTime(minute.text.toString())
+                                    setSwitchDvigitelOff(true)
+                                }
+                                binding.apply {
+                                    btnDivigitelOffTime.text = minute.text.toString() + " min"
+                                    swiDivigitelOffTime.isChecked = true
+                                }
 
-                        if (minute.text.toString().length == 0) {
-                            tosatShort(this@SettingsActivity, "Vaqtni kirting!!")
-                        } else {
-                            sharedPeriferensHelper.apply {
-                                setDivigitelOffTime(minute.text.toString())
-                                setSwitchDvigitelOff(true)
+                                divigitelOffTime(true)
+                                dialog.dismiss()
                             }
-                            binding.apply {
-                                btnDivigitelOffTime.text = minute.text.toString() + " min"
-                                swiDivigitelOffTime.isChecked = true
-                            }
-
-                            divigitelOffTime(true)
-                            dialog.dismiss()
                         }
+                        catch (e:Exception)
+                        {
+                            Toast.makeText(this@SettingsActivity, "${e.message}", Toast.LENGTH_SHORT).show()
+                        }
+                       
                     }
                     btnDialogNo.setOnClickListener {
                         dialog.dismiss()
@@ -244,16 +286,31 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private fun divigitelOffTime(b: Boolean) {
         offMinute = sharedPeriferensHelper.getDivigitelOffTime().toInt()
         getTimeInMillis(hour, minute) + offMinute * 10_000L
         val intent = Intent(this, AlarmDivigitelOff::class.java)
-        pi = PendingIntent.getBroadcast(this, 0, intent, 0)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            pi = PendingIntent.getBroadcast(
+                getApplication(),
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+            )
+        } else {
+            pi = PendingIntent.getBroadcast(
+                getApplication(),
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
+        }
         if (b) {
             if (sharedPeriferensHelper.getPhone()!="empty")
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP,
-                getTimeInMillis(hour, minute) + offMinute * 60_000L,
-                pi)
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP,
+                    getTimeInMillis(hour, minute) + offMinute * 60_000L,
+                    pi)
             sharedPeriferensHelper.setSwitchDvigitelOff(true)
         } else {
             alarmManager.cancel(pi)

@@ -90,7 +90,15 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-
+        <TextView
+            android:id="@+id/erorr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_margin_20dp"
+            android:layout_marginStart="@dimen/padding_margin_20dp"
+            android:textSize="@dimen/padding_margin_20dp"
+            android:textColor="@color/white"
+            />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
