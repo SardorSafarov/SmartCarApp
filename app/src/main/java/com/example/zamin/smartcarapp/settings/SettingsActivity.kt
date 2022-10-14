@@ -20,10 +20,7 @@ import com.example.zamin.smartcarapp.databinding.DialogChangePhoneNumberBinding
 import com.example.zamin.smartcarapp.databinding.DialogDivigitelOffTimeBinding
 import com.example.zamin.smartcarapp.databinding.DialogDivigitelOnTimeBinding
 import com.example.zamin.smartcarapp.db.SharedPereferenseHelper
-import com.example.zamin.smartcarapp.utils.D
-import com.example.zamin.smartcarapp.utils.getTimeInMillis
-import com.example.zamin.smartcarapp.utils.getTimeInMillisNextDay
-import com.example.zamin.smartcarapp.utils.tosatShort
+import com.example.zamin.smartcarapp.utils.*
 
 
 class SettingsActivity : AppCompatActivity() {
@@ -64,64 +61,68 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun createPhone() {
         binding.btnPhone.setOnClickListener {
-            val alertDialog = AlertDialog.Builder(this, R.style.CustomAlertDialog)
-            val view = LayoutInflater.from(this).inflate(R.layout.dialog_change_phone_number, null)
-            val dialogView = DialogChangePhoneNumberBinding.bind(view)
-            alertDialog.setView(view)
-            val dialog = alertDialog.create()
-            dialog.show()
-            dialogView.apply {
-                btnDialogOk.setOnClickListener {
-                    if (phoneNumber.text!!.isNotEmpty()) {
-                        if (phoneNumber.text.toString().length == 9) {
-                            sharedPeriferensHelper.setPhone(phoneNumber.text.toString())
-                            Toast.makeText(this@SettingsActivity,
-                                "Raqam kiritildi!",
-                                Toast.LENGTH_SHORT).show()
+                val alertDialog = AlertDialog.Builder(this, R.style.CustomAlertDialog)
+                val view =
+                    LayoutInflater.from(this).inflate(R.layout.dialog_change_phone_number, null)
+                val dialogView = DialogChangePhoneNumberBinding.bind(view)
+                alertDialog.setView(view)
+                val dialog = alertDialog.create()
+                dialog.show()
+                dialogView.apply {
+                    btnDialogOk.setOnClickListener {
+                        if (phoneNumber.text!!.isNotEmpty()) {
+                            if (phoneNumber.text.toString().length == 9) {
+                                sharedPeriferensHelper.setPhone(phoneNumber.text.toString())
+                                Toast.makeText(this@SettingsActivity,
+                                    "Raqam kiritildi!",
+                                    Toast.LENGTH_SHORT).show()
+                            } else
+                                Toast.makeText(this@SettingsActivity,
+                                    "Raqam xato kiritildi!",
+                                    Toast.LENGTH_SHORT).show()
                         } else
                             Toast.makeText(this@SettingsActivity,
-                                "Raqam xato kiritildi!",
+                                "Raqam kiritlmadi!",
                                 Toast.LENGTH_SHORT).show()
-                    } else
-                        Toast.makeText(this@SettingsActivity,
-                            "Raqam kiritlmadi!",
-                            Toast.LENGTH_SHORT).show()
-                    dialog.dismiss()
+                        dialog.dismiss()
+                    }
+                    btnDialogNo.setOnClickListener {
+                        dialog.dismiss()
+                    }
                 }
-                btnDialogNo.setOnClickListener {
-                    dialog.dismiss()
-                }
-            }
         }
     }
 
 
     private fun divigitelOnTimeDialog() {
         binding.btnDivigitelOnTime.setOnClickListener {
-            val alertDialog = AlertDialog.Builder(this, R.style.CustomAlertDialog)
-            val view = LayoutInflater.from(this).inflate(R.layout.dialog_divigitel_on_time, null)
-            val dialogView = DialogDivigitelOnTimeBinding.bind(view)
-            alertDialog.setView(view)
-            alertDialog.setCancelable(false)
-            val dialog = alertDialog.create()
-            dialog.show()
+            if (checkPhone(this, sharedPeriferensHelper)) {
+                val alertDialog = AlertDialog.Builder(this, R.style.CustomAlertDialog)
+                val view =
+                    LayoutInflater.from(this).inflate(R.layout.dialog_divigitel_on_time, null)
+                val dialogView = DialogDivigitelOnTimeBinding.bind(view)
+                alertDialog.setView(view)
+                alertDialog.setCancelable(false)
+                val dialog = alertDialog.create()
+                dialog.show()
 
-            dialogView.apply {
-                datePicker1.setIs24HourView(true)
-                btnDialogOk.setOnClickListener {
-                    if (Build.VERSION.SDK_INT >= 23) {
-                        hour = datePicker1.getHour()
-                        minute = datePicker1.getMinute()
-                    } else {
-                        hour = datePicker1.getCurrentHour()
-                        minute = datePicker1.getCurrentMinute()
+                dialogView.apply {
+                    datePicker1.setIs24HourView(true)
+                    btnDialogOk.setOnClickListener {
+                        if (Build.VERSION.SDK_INT >= 23) {
+                            hour = datePicker1.getHour()
+                            minute = datePicker1.getMinute()
+                        } else {
+                            hour = datePicker1.getCurrentHour()
+                            minute = datePicker1.getCurrentMinute()
+                        }
+                        saveHourAndMinute()
+                        createDvigitelOnTimeCheck(getTimeInMillis(hour, minute))
+                        dialog.dismiss()
                     }
-                    saveHourAndMinute()
-                    createDvigitelOnTimeCheck(getTimeInMillis(hour, minute))
-                    dialog.dismiss()
-                }
-                btnDialogNo.setOnClickListener {
-                    dialog.dismiss()
+                    btnDialogNo.setOnClickListener {
+                        dialog.dismiss()
+                    }
                 }
             }
         }
@@ -154,20 +155,24 @@ class SettingsActivity : AppCompatActivity() {
         intent.putExtra("minute", minute.toString())
         pi = PendingIntent.getBroadcast(this, 0, intent, 0)
         binding.swiDivigitelOnTime.setOnCheckedChangeListener { compoundButton: CompoundButton, b: Boolean ->
-            if (b) {
-                if (sharedPeriferensHelper.getPhone()!="empty")
-                createDvigitelOnTimeCheck(getTimeInMillis(hour.toString().toInt(),
-                    minute.toString().toInt()))
-            } else {
-                alarmManager.cancel(pi)
-                sharedPeriferensHelper.setSwitchDvigitelOn(false)
-                binding.apply {
-                    swiDivigitelOnTime.isChecked = false
-                    swiDivigitelOffTime.isChecked = false
+            if (checkPhone(this, sharedPeriferensHelper)) {
+                if (b) {
+                    if (sharedPeriferensHelper.getPhone() != "empty")
+                        createDvigitelOnTimeCheck(getTimeInMillis(hour.toString().toInt(),
+                            minute.toString().toInt()))
+                } else {
+                    alarmManager.cancel(pi)
+                    sharedPeriferensHelper.setSwitchDvigitelOn(false)
+                    binding.apply {
+                        swiDivigitelOnTime.isChecked = false
+                        swiDivigitelOffTime.isChecked = false
+                    }
+                    divigitelOffTime(false)
                 }
-                divigitelOffTime(false)
             }
-
+            else{
+                binding.swiDivigitelOnTime.isChecked = false
+            }
         }
     }
 
@@ -187,32 +192,36 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun divigitelOffTimeDialog() {
         binding.btnDivigitelOffTime.setOnClickListener {
-            val alertDialog = AlertDialog.Builder(this, R.style.CustomAlertDialog)
-            val view = LayoutInflater.from(this).inflate(R.layout.dialog_divigitel_off_time, null)
-            val dialogView = DialogDivigitelOffTimeBinding.bind(view)
-            alertDialog.setView(view)
-            val dialog = alertDialog.create()
-            dialog.show()
-            dialogView.apply {
-                btnDialogOk.setOnClickListener {
-                    if (minute.text.toString().length == 0) {
-                        tosatShort(this@SettingsActivity, "Vaqtni kirting!!")
-                    } else {
-                        sharedPeriferensHelper.apply {
-                            setDivigitelOffTime(minute.text.toString())
-                            setSwitchDvigitelOff(true)
-                        }
-                        binding.apply {
-                            btnDivigitelOffTime.text = minute.text.toString() + " min"
-                            swiDivigitelOffTime.isChecked = true
-                        }
+            if (checkPhone(this, sharedPeriferensHelper)) {
+                val alertDialog = AlertDialog.Builder(this, R.style.CustomAlertDialog)
+                val view =
+                    LayoutInflater.from(this).inflate(R.layout.dialog_divigitel_off_time, null)
+                val dialogView = DialogDivigitelOffTimeBinding.bind(view)
+                alertDialog.setView(view)
+                val dialog = alertDialog.create()
+                dialog.show()
+                dialogView.apply {
+                    btnDialogOk.setOnClickListener {
 
-                        divigitelOffTime(true)
+                        if (minute.text.toString().length == 0) {
+                            tosatShort(this@SettingsActivity, "Vaqtni kirting!!")
+                        } else {
+                            sharedPeriferensHelper.apply {
+                                setDivigitelOffTime(minute.text.toString())
+                                setSwitchDvigitelOff(true)
+                            }
+                            binding.apply {
+                                btnDivigitelOffTime.text = minute.text.toString() + " min"
+                                swiDivigitelOffTime.isChecked = true
+                            }
+
+                            divigitelOffTime(true)
+                            dialog.dismiss()
+                        }
+                    }
+                    btnDialogNo.setOnClickListener {
                         dialog.dismiss()
                     }
-                }
-                btnDialogNo.setOnClickListener {
-                    dialog.dismiss()
                 }
             }
         }
@@ -221,11 +230,16 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun switchDvigitemOffTimeOnOff() {
         binding.swiDivigitelOffTime.setOnCheckedChangeListener { compoundButton: CompoundButton, b: Boolean ->
-            if (b) {
-                if (sharedPeriferensHelper.getPhone()!="empty")
-                divigitelOffTime(true)
-            } else {
-                divigitelOffTime(false)
+            if (checkPhone(this, sharedPeriferensHelper)) {
+                if (b) {
+                    if (sharedPeriferensHelper.getPhone() != "empty")
+                        divigitelOffTime(true)
+                } else {
+                    divigitelOffTime(false)
+                }
+            }
+            else{
+                binding.swiDivigitelOffTime.isChecked = false
             }
         }
     }

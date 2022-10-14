@@ -8,6 +8,7 @@ import com.example.zamin.smartcarapp.databinding.FragmentPage1Binding
 import com.example.zamin.smartcarapp.utils.AppVarebles.BTN_CHECK
 import com.example.zamin.smartcarapp.utils.D
 import com.example.zamin.smartcarapp.utils.checkMotorTime
+import com.example.zamin.smartcarapp.utils.checkPhone
 import com.example.zamin.smartcarapp.utils.tosatShort
 
 
@@ -28,7 +29,7 @@ class Page1Fragment(val listener: Page1Interfase) :
         binding.apply {
 
             btnCarMator.setOnLongClickListener {
-                if (checkPhone()) {
+                if (checkPhone(requireContext(),sharedPereferenseHelper)) {
                     BTN_CHECK = checkMotorTime(requireContext())
                     if (BTN_CHECK) {
                         listener.motorListener(motorOnOff)
@@ -40,7 +41,7 @@ class Page1Fragment(val listener: Page1Interfase) :
             }
 
             btnCardLockOn.setOnLongClickListener {
-                if (checkPhone())
+                if (checkPhone(requireContext(),sharedPereferenseHelper))
                     BTN_CHECK = checkMotorTime(requireContext())
                 if (BTN_CHECK) {
                     listener.securityListener(true)
@@ -49,7 +50,7 @@ class Page1Fragment(val listener: Page1Interfase) :
                 true
             }
             btnCardLockOff.setOnLongClickListener {
-                if (checkPhone()) {
+                if (checkPhone(requireContext(),sharedPereferenseHelper)) {
                     BTN_CHECK = checkMotorTime(requireContext())
                     if (BTN_CHECK) {
                         listener.securityListener(false)
@@ -63,12 +64,5 @@ class Page1Fragment(val listener: Page1Interfase) :
 
 
 
-    private fun checkPhone(): Boolean {
-        if (sharedPereferenseHelper.getPhone() == "empty") {
-            Toast.makeText(activity, "Ma'lumotlarini kiriting!!", Toast.LENGTH_SHORT).show()
-            return false
-        } else {
-            return true
-        }
-    }
+
 }

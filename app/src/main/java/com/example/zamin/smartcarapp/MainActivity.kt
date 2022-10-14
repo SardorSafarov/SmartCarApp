@@ -52,7 +52,8 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
                         carC.text = "+ ${CAR_ABOUT.substring(1, 3)} C"
                         if (CAR_ABOUT.substring(3, 4) == "o") {
                             imgMainCar.setImageResource(R.drawable.sedan_open_trunk)
-                        } else {
+                        }
+                        else {
                             imgMainCar.setImageResource(R.drawable.sedan_main)
                         }
                         if (CAR_ABOUT.substring(4, 5) == "y") {

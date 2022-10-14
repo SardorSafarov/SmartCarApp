@@ -139,3 +139,12 @@ fun checkMotorTime(context: Context): Boolean {
     }
     return AppVarebles.BTN_CHECK
 }
+
+fun checkPhone(context: Context,sharedPereferenseHelper:SharedPereferenseHelper): Boolean {
+    if (sharedPereferenseHelper.getPhone() == "empty") {
+        Toast.makeText(context, "Ma'lumotlarini kiriting!!", Toast.LENGTH_SHORT).show()
+        return false
+    } else {
+        return true
+    }
+}
