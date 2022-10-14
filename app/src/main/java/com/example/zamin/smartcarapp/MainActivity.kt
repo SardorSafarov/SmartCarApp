@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
     lateinit var sharedPereferenseHelper: SharedPereferenseHelper
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

@@ -23,6 +23,7 @@ class Page1Fragment(val listener: Page1Interfase) :
         setOnclicListener()
     }
 
+
     @SuppressLint("SuspiciousIndentation")
     private fun setOnclicListener() {
         binding.apply {

@@ -24,6 +24,7 @@ abstract class BaseFragment<VB : ViewBinding>(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         sharedPereferenseHelper = SharedPereferenseHelper(inflater.context)
         _binding = inflate.invoke(inflater, container, false)
 
