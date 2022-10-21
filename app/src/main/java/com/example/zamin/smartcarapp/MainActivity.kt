@@ -103,12 +103,12 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
 
     override fun motorListener(boolean: Boolean) {
         if (boolean) {
-            mediaPlayer(this,R.raw.engine_stop)
-            sendSms(sharedPereferenseHelper,"*0*")
+            mediaPlayer(this,R.raw.engine_start)
+            sendSms(sharedPereferenseHelper,"*s*")
             sleep(2000)
         } else {
             mediaPlayer(this,R.raw.engine_start)
-            sendSms(sharedPereferenseHelper,"*1*")
+            sendSms(sharedPereferenseHelper,"*s*")
             sleep(2000)
         }
         vibirator(this)

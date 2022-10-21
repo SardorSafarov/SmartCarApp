@@ -56,9 +56,7 @@ class SettingsActivity : AppCompatActivity() {
         }catch (e:Exception){
             D(e.message.toString())
         }
-
     }
-
     private fun createPhone() {
         binding.btnPhone.setOnClickListener {
                 val alertDialog = AlertDialog.Builder(this, R.style.CustomAlertDialog)
@@ -92,8 +90,6 @@ class SettingsActivity : AppCompatActivity() {
                 }
         }
     }
-
-
     private fun divigitelOnTimeDialog() {
         binding.btnDivigitelOnTime.setOnClickListener {
             if (checkPhone(this, sharedPeriferensHelper)) {
@@ -134,9 +130,6 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
     }
-
-
-
     private fun saveHourAndMinute() {
         var a = hour.toString()
         var b = minute.toString()
@@ -147,8 +140,6 @@ class SettingsActivity : AppCompatActivity() {
         binding.btnDivigitelOnTime.text = "$a:$b"
         sharedPeriferensHelper.setDivigitelOnTime("$a:$b")
     }
-
-
     @SuppressLint("SuspiciousIndentation")
     private fun switchDvigitemOnTimeOFF() {
         hour = sharedPeriferensHelper.getDivigitelOnTime()

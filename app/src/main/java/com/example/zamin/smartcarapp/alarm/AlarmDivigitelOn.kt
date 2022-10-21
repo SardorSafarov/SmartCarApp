@@ -9,9 +9,7 @@ import android.content.Intent
 import android.os.Build
 import com.example.zamin.smartcarapp.R
 import com.example.zamin.smartcarapp.db.SharedPereferenseHelper
-import com.example.zamin.smartcarapp.utils.getTimeInMillisNextDay
-import com.example.zamin.smartcarapp.utils.mediaPlayer
-import com.example.zamin.smartcarapp.utils.sendSms
+import com.example.zamin.smartcarapp.utils.*
 
 class AlarmDivigitelOn : BroadcastReceiver() {
     lateinit var alarmManager: AlarmManager
@@ -20,19 +18,19 @@ class AlarmDivigitelOn : BroadcastReceiver() {
     override fun onReceive(p0: Context?, p1: Intent?) {
         p0?.let { mediaPlayer(it, R.raw.engine_start) }
         sharedPereferenseHelper = SharedPereferenseHelper(p0!!.applicationContext)
-        sendSms(sharedPereferenseHelper,"*3*")
+       sendSms(sharedPereferenseHelper,"*s*")
         val hour = p1!!.getStringExtra("hour")!!.toInt()
         val minute = p1!!.getStringExtra("minute")!!.toInt()
         alarmManager = p0!!.getSystemService(ALARM_SERVICE) as AlarmManager
         val intent = Intent(p0, AlarmDivigitelOn::class.java)
         intent.putExtra("hour",hour.toString())
         intent.putExtra("minute",minute.toString())
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             pi = PendingIntent.getBroadcast(
                 p0,
                 0,
                 intent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+                0
             )
         } else {
             pi = PendingIntent.getBroadcast(
@@ -42,7 +40,6 @@ class AlarmDivigitelOn : BroadcastReceiver() {
                 PendingIntent.FLAG_UPDATE_CURRENT
             )
         }
-
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, getTimeInMillisNextDay(hour, minute), pi)
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, getTimeInMillis(hour, minute) -10_000L, AlarmManager.INTERVAL_DAY,pi)
     }
 }

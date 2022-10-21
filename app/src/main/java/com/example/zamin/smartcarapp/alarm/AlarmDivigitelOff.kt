@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import com.example.zamin.smartcarapp.R
 import com.example.zamin.smartcarapp.db.SharedPereferenseHelper
+import com.example.zamin.smartcarapp.utils.D
 import com.example.zamin.smartcarapp.utils.mediaPlayer
 import com.example.zamin.smartcarapp.utils.sendSms
 
@@ -13,6 +14,6 @@ class AlarmDivigitelOff:BroadcastReceiver() {
     override fun onReceive(p0: Context?, p1: Intent?) {
         p0?.let { mediaPlayer(it, R.raw.engine_stop) }
         sharedPereferenseHelper = SharedPereferenseHelper(p0!!)
-        sendSms(sharedPereferenseHelper,"*2*")
+        sendSms(sharedPereferenseHelper,"*s*")
     }
 }
