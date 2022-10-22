@@ -9,6 +9,7 @@ import android.content.Intent
 import android.os.Build
 import com.example.zamin.smartcarapp.R
 import com.example.zamin.smartcarapp.db.SharedPereferenseHelper
+import com.example.zamin.smartcarapp.utils.D
 import com.example.zamin.smartcarapp.utils.getTimeInMillisNextDay
 import com.example.zamin.smartcarapp.utils.mediaPlayer
 import com.example.zamin.smartcarapp.utils.sendSms
@@ -21,7 +22,7 @@ class AlarmDivigitelOn : BroadcastReceiver() {
         try {
             p0?.let { mediaPlayer(it, R.raw.engine_start) }
             sharedPereferenseHelper = SharedPereferenseHelper(p0!!.applicationContext)
-            sendSms(sharedPereferenseHelper, "*s*")
+            sendSms(sharedPereferenseHelper, "*1*")
             val hour = p1!!.getStringExtra("hour")!!.toInt()
             val minute = p1!!.getStringExtra("minute")!!.toInt()
             alarmManager = p0!!.getSystemService(ALARM_SERVICE) as AlarmManager
@@ -43,6 +44,7 @@ class AlarmDivigitelOn : BroadcastReceiver() {
                     PendingIntent.FLAG_UPDATE_CURRENT
                 )
             }
+
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, getTimeInMillisNextDay(hour, minute), pi)
         } catch (e: Exception) {
 

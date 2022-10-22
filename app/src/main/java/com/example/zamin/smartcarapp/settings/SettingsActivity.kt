@@ -299,9 +299,7 @@ class SettingsActivity : AppCompatActivity() {
         }
         if (b) {
             if (sharedPeriferensHelper.getPhone()!="empty")
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP,
-                    getTimeInMillis(hour, minute) + offMinute * 60_000L,
-                    pi)
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, getTimeInMillis(hour, minute) + offMinute * 60_000L, pi)
             sharedPeriferensHelper.setSwitchDvigitelOff(true)
         } else {
             alarmManager.cancel(pi)

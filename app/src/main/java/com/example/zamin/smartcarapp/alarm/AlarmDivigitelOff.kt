@@ -14,6 +14,6 @@ class AlarmDivigitelOff:BroadcastReceiver() {
     override fun onReceive(p0: Context?, p1: Intent?) {
         p0?.let { mediaPlayer(it, R.raw.engine_stop) }
         sharedPereferenseHelper = SharedPereferenseHelper(p0!!)
-        sendSms(sharedPereferenseHelper,"*s*")
+        sendSms(sharedPereferenseHelper,"*0*")
     }
 }

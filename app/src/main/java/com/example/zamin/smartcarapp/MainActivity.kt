@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
             } catch (e: Exception) {
                 D(e.message.toString())
             }
-            sleep(10_000)
+            sleep(5_000)
             carAbout()
         }.start()
     }
