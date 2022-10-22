@@ -107,20 +107,18 @@ fun getTimeInMillis(hour: Int, minute: Int): Long {
         set(Calendar.SECOND, 0)
         set(Calendar.MILLISECOND, 0)
     }
-    D(calendar.time.toString ())
     return calendar.timeInMillis
 }
 
 fun getTimeInMillisNextDay(hour: Int, minute: Int):Long {
     val calendar = Calendar.getInstance()
     calendar.apply {
-        set(Calendar.DAY_OF_YEAR,1)
+        add(Calendar.DAY_OF_YEAR,1)
         set(Calendar.HOUR_OF_DAY, hour)
         set(Calendar.MINUTE, minute)
         set(Calendar.SECOND,0)
         set(Calendar.MILLISECOND,0)
     }
-    D(calendar.time.toString())
     return calendar.timeInMillis
 }
 
