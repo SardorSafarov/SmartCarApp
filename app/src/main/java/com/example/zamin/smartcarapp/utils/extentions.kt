@@ -87,12 +87,12 @@ fun readSms(
           {
             if (text.contains("&"))
             {
-                D(text)
+             //   D(text)
                 return text
             }
           }
        }catch (e:Exception){
-           D(e.toString())
+          // D(e.toString())
        }
     }
     cursor.close()
@@ -135,7 +135,7 @@ fun checkMotorTime(context: Context): Boolean {
         }.start()
     }
     else{
-        tosatShort(context,"Sabir")
+        tosatShort(context,"Sabr")
     }
     return AppVarebles.BTN_CHECK
 }

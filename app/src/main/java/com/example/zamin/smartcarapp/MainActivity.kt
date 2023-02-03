@@ -22,7 +22,6 @@ import java.lang.Thread.sleep
 
 class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
     Page2Fragment.Page2Interface {
-
     private lateinit var binding: ActivityMainBinding
     val items: ArrayList<Fragment> = arrayListOf(Page1Fragment(this), Page2Fragment(this))
     lateinit var adapterFragment: ViewPageAdapter
@@ -50,6 +49,7 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
                     CAR_ABOUT = readSms(this, sharedPeriferensHelper = sharedPereferenseHelper)
                 binding.apply {
                     if (CAR_ABOUT != "") {
+                        D(CAR_ABOUT+"-----")
                         carC.text = "+ ${CAR_ABOUT.substring(1, 3)} C"
                         if (CAR_ABOUT.substring(3, 4) == "o") {
                             imgMainCar.setImageResource(R.drawable.sedan_open_trunk)
@@ -78,9 +78,8 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
                     }
                 }
             } catch (e: Exception) {
-                D(e.message.toString())
             }
-            sleep(5_000)
+            sleep(1000)
             carAbout()
         }.start()
     }
@@ -93,9 +92,12 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
 
 
     override fun securityListener(boolean: Boolean) {
-        if (boolean) {
+        if (boolean)
+        {
             sendSms(sharedPereferenseHelper,"*2*")
-        } else {
+        }
+        else
+        {
             sendSms(sharedPereferenseHelper,"*3*")
         }
         vibirator(this)
@@ -142,5 +144,6 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
         else
             binding.viewPage2.currentItem--
     }
+
 
 }
