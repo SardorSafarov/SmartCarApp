@@ -16,7 +16,7 @@ class AlarmCarAbout: BroadcastReceiver() {
     lateinit var pi:PendingIntent
     override fun onReceive(p0: Context?, p1: Intent?) {
         sharedPereferenseHelper = SharedPereferenseHelper(p0!!)
-        AppVarebles.CAR_ABOUT = readSms(p0!!, sharedPeriferensHelper = sharedPereferenseHelper)
+      //  AppVarebles.CAR_ABOUT = readSms(p0!!, sharedPeriferensHelper = sharedPereferenseHelper)
         alarmManager = p0!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(p0, AlarmCarAbout::class.java)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {

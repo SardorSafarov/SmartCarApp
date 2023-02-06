@@ -87,7 +87,6 @@ fun readSms(
           {
             if (text.contains("&"))
             {
-             //   D(text)
                 return text
             }
           }
