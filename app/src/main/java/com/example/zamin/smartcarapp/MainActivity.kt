@@ -2,13 +2,17 @@ package com.example.zamin.smartcarapp
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.provider.Telephony
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.zamin.smartcarapp.adapter.ViewPageAdapter
 import com.example.zamin.smartcarapp.databinding.ActivityMainBinding
@@ -18,9 +22,6 @@ import com.example.zamin.smartcarapp.fragment.Page2Fragment
 import com.example.zamin.smartcarapp.settings.SettingsActivity
 import com.example.zamin.smartcarapp.utils.*
 import com.example.zamin.smartcarapp.utils.AppVarebles.CAR_ABOUT
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.lang.Thread.sleep
 
 class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
@@ -46,90 +47,30 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
 
     @SuppressLint("SuspiciousIndentation")
     private fun carAbout() {
-        Thread {
-            try {
-                if (sharedPereferenseHelper.getPhone() != "empty")
-                    CAR_ABOUT = readSms(this, sharedPeriferensHelper = sharedPereferenseHelper)
-                binding.apply {
-                    if (CAR_ABOUT != "") {
-                        carC.text = "+ ${CAR_ABOUT.substring(1, 3)} C"
-                        if (CAR_ABOUT.substring(5, 6) == "y")
-                        {
-                            D("dome yopildi")
-                            binding.imgDome.visible()
-                        }
-                        else
-                        {
-                            D("dome ochildi")
-                            binding.imgDome.invisible()
-                        }
-                        if (CAR_ABOUT.substring(3, 4) == "y") {
-                            D("Kapot yopildi")
-                            imgMainCar.setImageResource(R.drawable.sedan_main)
-                        }
-                        else {
-                            D("Kapot ochildi")
-                            imgMainCar.setImageResource(R.drawable.sedan_open_trunk)
-                        }
-                        if (CAR_ABOUT.substring(4, 5) == "y") {
-                            D("mator yopildi")
-                            animMotor.invisible()
-                            AppVarebles.MATOROFF = false
-                        }
-                        else
-                        {   D("mator ochildi")
-                            animMotor.visible()
-                            AppVarebles.MATOROFF = true
-                        }
-
-                        D("**************************************")
-                    }
+        CAR_ABOUT = sharedPereferenseHelper.getSmsCode()!!
+        binding.apply {
+            if (CAR_ABOUT != "") {
+                carC.text = "+ ${CAR_ABOUT.substring(1, 3)} C"
+                if (CAR_ABOUT.substring(5, 6) == "y") {
+                    binding.imgDome.visible()
+                } else {
+                    binding.imgDome.invisible()
                 }
-            } catch (e: Exception) {
+                if (CAR_ABOUT.substring(3, 4) == "y") {
+                    imgMainCar.setImageResource(R.drawable.sedan_main)
+                } else {
+                    imgMainCar.setImageResource(R.drawable.sedan_open_trunk)
+                }
+                if (CAR_ABOUT.substring(4, 5) == "y") {
+                    animMotor.invisible()
+                    AppVarebles.MATOROFF = false
+                } else {
+                    animMotor.visible()
+                    AppVarebles.MATOROFF = true
+                }
             }
-            sleep(1000)
-            carAbout()
-        }.start()
+        }
     }
-//    private val scope = CoroutineScope(Dispatchers.IO)
-//    private fun carAbout(){
-//    scope.launch {
-//        CAR_ABOUT = readSms(applicationContext,sharedPereferenseHelper)
-//        scope.launch(Dispatchers.Main){
-//                binding?.apply {
-//                    if (CAR_ABOUT != "") {
-//                        carC.text = "+ ${CAR_ABOUT.substring(1, 3)} C"
-//                        if (CAR_ABOUT.substring(3, 4) == "o") {
-//                            imgMainCar.setImageResource(R.drawable.sedan_open_trunk)
-//                        }
-//                        else {
-//                            imgMainCar.setImageResource(R.drawable.sedan_main)
-//                        }
-//                        if (CAR_ABOUT.substring(4, 5) == "y") {
-//                            animMotor.invisible()
-//                            AppVarebles.MATOROFF = false
-//                        }
-//                        else
-//                        {
-//                            animMotor.visible()
-//                            AppVarebles.MATOROFF = true
-//                        }
-//                        if (CAR_ABOUT.substring(5, 6) == "y")
-//                        {
-//                            D("--------")
-//                            binding.imgDome.visible()
-//                        }
-//                        else
-//                        {
-//                            binding.imgDome.invisible()
-//                        }
-//
-//                    }
-//                }
-//        }
-//    }
-//    }
-
     private fun changePhoneNumber() {
         binding.btnSettings.setOnClickListener {
             startActivity(Intent(this,SettingsActivity::class.java))
@@ -160,7 +101,7 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
             sleep(2000)
         }
         vibirator(this)
-        carAbout()
+        //    carAbout()
     }
 
 
@@ -173,15 +114,46 @@ class MainActivity : AppCompatActivity(), Page1Fragment.Page1Interfase,
 
 
     private fun checkSendMessagePerimetion() {
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.RECEIVE_SMS
+            ) != PackageManager.PERMISSION_GRANTED
         ) {
-            ActivityCompat.requestPermissions(this,
-                arrayOf(Manifest.permission.SEND_SMS, Manifest.permission.READ_SMS),
-                123)
-        } else {
-            checkSendMessagePerimetion()
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.RECEIVE_SMS, Manifest.permission.SEND_SMS),
+                111
+            )
+        } else
+            receiveMsg()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray,
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 111 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            receiveMsg()
+    }
+
+    private fun receiveMsg() {
+        var br = object : BroadcastReceiver() {
+            override fun onReceive(p0: Context?, pl: Intent?) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+                    for (sms in Telephony.Sms.Intents.getMessagesFromIntent(pl)) {
+                        if (sms.displayMessageBody.contains("&")) {
+                            sharedPereferenseHelper.setSmsCode(sms = sms.displayMessageBody)
+                        }
+                    }
+                carAbout()
+            }
         }
+        registerReceiver(
+            br,
+            IntentFilter("android.provider.Telephony.SMS_RECEIVED")
+        )
     }
 
     override fun onBackPressed() {

@@ -56,6 +56,13 @@ class SharedPereferenseHelper(val context: Context) {
     fun getSwitchDvigitelOff() = sharedPreferences.getBoolean("dvigitelOffSwitch", false)
 
 
+    fun setSmsCode(sms: String) {
+        editor = sharedPreferences.edit()
+        editor.putString("code", sms)
+        editor.commit()
+    }
+
+    fun getSmsCode() = sharedPreferences.getString("code", "")
 
 
 
